@@ -14,8 +14,4 @@ public Derived: public Piece{
 };
 
 int main(){
-	Derived d;
-	d.show();
-	Derived a;
-	a.show();
 }
