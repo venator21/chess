@@ -1,123 +1,93 @@
+#include"piece.h"
 #include<iostream>
-#include<string>
+
 using namespace std;
 
-class Piece {
-private:
-	bool killed = false;
-	bool white = false;
 
-public:
-	Piece(bool white) {
-		this->setWhite(white);
-	}
-	void setWhite(bool white) {
-		this->white = white;
-	}
-	bool isWhite() {
-		return this->white;
-	}
-	void setKilled(bool killed) {
-		this->killed = killed;
-	}
-	bool isKilled() {
-		return this->killed;
-	}
-	virtual bool canMove() = 0; //TODO add arguments
-};
-
-class King: public Piece {
-private:
-	bool castlingDone = false;
-
-	bool isValidCastling(){  //TODO add arguments
-
-		if (this->isCastlingDone()) {
-			return false;
-		}
-		//TODO Logic for returning true or false 
-	}
-public:
-	King(bool white)
-		: Piece{ white }{
-	}
-	bool isCastlingDone() {
-		return this->castlingDone == true;
-	}
-	void setCastlingDone(bool castlingDone) {
-		this->castlingDone = castlingDone;
-	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
+Piece::Piece(bool white) {
+	this->setWhite(white);
+}
+void Piece::setWhite(bool white) {
+	this->white = white;
+}
+bool Piece::isWhite() {
+	return this->white;
+}
+void Piece::setKilled(bool killed) {
+	this->killed = killed;
+}
+bool Piece::isKilled() {
+	return this->killed;
+}
 
 
-class Queen : public Piece {
-public:
-	Queen(bool white)
-		: Piece{ white } {
-	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
+King::King(bool white)
+	: Piece{ white } {
+}
+bool King::isValidCastling(){  //TODO add arguments
 
-class Bishop : public Piece {
-public:
-	Bishop(bool white)
-		: Piece{ white } {
+	if (this->isCastlingDone()) {
+		return false;
 	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
-
-class Knight : public Piece {
-public:
-	Knight(bool white)
-		: Piece{ white } {
-	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
-
-class Rook: public Piece {
-public:
-	Rook(bool white)
-		: Piece{ white } {
-	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
-
-class Pawn : public Piece {
-private:
-	bool isValidEnPassant() {  //TODO add arguments
-		//TODO Logic for returning true or false 
-	}
-	bool isValidPromotion() {  //TODO add arguments
-	//TODO Logic for returning true or false 
-	}
-
-public:
-	Pawn(bool white)
-		: Piece{ white } {
-	}
-	void getPromoted() { //TODO implementation of promotion
-	}
-	virtual bool canMove() { //TODO add args and logic for returning true or false
-		return 0;
-	}
-};
+	;//TODO Logic for returning true or false 
+}
+bool King::isCastlingDone() {
+	return this->castlingDone == true;
+}
+void King::setCastlingDone(bool castlingDone) {
+	this->castlingDone = castlingDone;
+}
+bool King::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
 
 
 
 
-int main(){
-	Queen q(true);
-	cout << q.isWhite() << endl;
-	cout << q.isKilled() << endl;
+Queen::Queen(bool white)
+	: Piece{ white } {
+}
+bool Queen::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
+
+
+
+Bishop::Bishop(bool white)
+	: Piece{ white } {
+}
+	bool Bishop::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
+
+
+Knight::Knight(bool white)
+	: Piece{ white } {
+}
+bool Knight::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
+
+
+Rook::Rook(bool white)
+	: Piece{ white } {
+}
+bool Rook::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
+
+
+Pawn::Pawn(bool white)
+	: Piece{ white } {
+}
+void Pawn::getPromoted() { //TODO implementation of promotion
+}
+bool Pawn::canMove() { //TODO add args and logic for returning true or false
+	return 0;
+}
+bool Pawn::isValidEnPassant() {  //TODO add arguments
+	return 0; //TODO Logic for returning true or false 
+}
+bool Pawn::isValidPromotion() {  //TODO add arguments
+	return 0; //TODO Logic for returning true or false 
 }
