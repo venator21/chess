@@ -29,7 +29,7 @@ bool King::isValidCastling(){  //TODO add arguments
 	if (this->isCastlingDone()) {
 		return false;
 	}
-	;//TODO Logic for returning true or false 
+	return 0;//TODO Logic for returning true or false 
 }
 bool King::isCastlingDone() {
 	return this->castlingDone == true;
