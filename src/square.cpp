@@ -1,5 +1,10 @@
 #include"square.h"
 
+Square::Square() {
+	this->setX(x);
+	this->setY(y);
+	this->setPiece(piece);
+}
 Square::Square(int x, int y, Piece* piece) {
 	this->setX(x);
 	this->setY(y);
