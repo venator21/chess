@@ -1,13 +1,14 @@
 #pragma once
-#include"square.h"
+#include"Square.h"
+#include"piece.h"
 
 class Board {
 private:
-	Square grid[8][8];
+	Square** grid = new Square* [8];
+
 
 public:
 	Board();
-	void resetBoard();
-	Square getSquare(int x, int y);
-
+	void initializeBoard();
+	Square* getSquare(int x, int y);
 };

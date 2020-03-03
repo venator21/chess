@@ -1,30 +1,36 @@
-#include"piece.h"
-#include"square.h"
-#include"player.h"
+#include"move.h"
 
-class Move {
-private:
-	Player player;
-	Square start;
-	Square end;
-	Piece* pieceMoved;
-	Piece* pieceKilled; //TODO what to do with this
-	bool castlingMove = false;
+Move::Move(Player player, Square* start, Square* end) {
+	this->player = player;
+	this->start = start;
+	this->end = end;
+	this->pieceMoved = start->getPiece();
+	this->pieceKilled = end->getPiece();
+}
 
-public:
-	Move(Player player, Square start, Square end) {
-		this->player = player;
-		this->start = start;
-		this->end = end;
-		this->pieceMoved = start.getPiece();
-	}
+bool Move::isCastlingMove() {
+	return this->castlingMove == true;
+}
 
-	bool isCastlingMove() {
-		return this->castlingMove == true;
-	}
+void Move::setCastlingMove(bool castlingMove)
+{
+	this->castlingMove = castlingMove;
+}
 
-	void setCastlingMove(bool castlingMove)
-	{
-		this->castlingMove = castlingMove;
-	}
-};
+Square* Move::getStart(){
+	return this->start;
+}
+
+Square* Move::getEnd() {
+	return this->end;
+}
+
+Piece* Move::getPieceMoved() {
+	return this->pieceMoved;
+}
+Piece* Move::getPieceKilled() {
+	return this->pieceKilled;
+}
+
+
+

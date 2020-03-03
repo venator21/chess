@@ -1,5 +1,6 @@
 #include"player.h"
 
+
 bool Player::isWhiteSide() {
 	return this->whiteSide == true;
 }

@@ -1,5 +1,6 @@
 #pragma once
-#include"piece.h"
+
+class Piece;
 
 class Square {
 private:
