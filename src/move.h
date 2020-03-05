@@ -18,8 +18,6 @@ public:
 	void setCastlingMove(bool castlingMove);
 	Square* getStart();
 	Square* getEnd();
-	Piece* getPieceMoved();
-	Piece* getPieceKilled();
 
 
 };

@@ -1,5 +1,5 @@
 #pragma once
-#include"Square.h"
+#include"square.h"
 #include"piece.h"
 
 class Board {

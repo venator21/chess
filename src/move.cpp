@@ -25,12 +25,5 @@ Square* Move::getEnd() {
 	return this->end;
 }
 
-Piece* Move::getPieceMoved() {
-	return this->pieceMoved;
-}
-Piece* Move::getPieceKilled() {
-	return this->pieceKilled;
-}
-
 
 

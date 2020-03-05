@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include"piece.h"
 
+
 using namespace std;
 
 
@@ -41,12 +42,20 @@ bool King::isCastlingDone() {
 void King::setCastlingDone(bool castlingDone) {
 	this->castlingDone = castlingDone;
 }
-bool King::canMove(Piece* sourcePiece, Piece* killedPiece,
-				int sourceX, int sourceY,
-				int killedX, int killedY) {
+bool King::canMove(Piece* sourcePiece, Piece* killedPiece, 
+					int sourceX, int sourceY,
+					int killedX, int killedY) {
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
 	int x = abs(sourceX - killedX);
 	int y = abs(sourceY - killedY);
-	if (x + y <= 2) return true;
+	if (x + y <= 2)
+		return true;
+	else
+		return false;
 }
 
 
@@ -58,12 +67,20 @@ Queen::Queen(bool white)
 PieceType Queen::getPieceType() {
 	return this->pieceType;
 };
-bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece, 
 					int sourceX, int sourceY,
 					int killedX, int killedY) { //TODO add args and logic for returning true or false
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
 	int x = abs(sourceX - killedX);
 	int y = abs(sourceY - killedY);
-	if ((x == 0 || y == 0) || (x == y)) return true;
+	if ((x == 0 || y == 0) || (x == y))
+		return true;
+	else
+		return false;
 }
 
 
@@ -74,12 +91,18 @@ Bishop::Bishop(bool white)
 PieceType Bishop::getPieceType() {
 	return this->pieceType;
 };
-	bool Bishop::canMove(Piece* sourcePiece, Piece* killedPiece,
-						int sourceX, int sourceY,
-						int killedX, int killedY) { //TODO add args and logic for returning true or false
-		int x = abs(sourceX - killedX);
-		int y = abs(sourceY - killedY);
-		if (x == y) return true;
+bool Bishop::canMove(Piece* sourcePiece, Piece* killedPiece, 
+					int sourceX, int sourceY,
+					int killedX, int killedY) { //TODO add args and logic for returning true or false
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
+	int x = abs(sourceX - killedX);
+	int y = abs(sourceY - killedY);
+	if (x == y) return true;
+	return 1;
 }
 
 
@@ -89,12 +112,20 @@ Knight::Knight(bool white)
 PieceType Knight::getPieceType() {
 	return this->pieceType;
 };
-bool Knight::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Knight::canMove(Piece* sourcePiece, Piece* killedPiece, 
 					int sourceX, int sourceY,
 					int killedX, int killedY) { //TODO add args and logic for returning true or false
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
 	int x = abs(sourceX - killedX);
 	int y = abs(sourceY - killedY);
-	if ((x == 1 && y == 2) || (x == 2 && y == 1)) return true;
+	if ((x == 1 && y == 2) || (x == 2 && y == 1))
+		return true;
+	else
+		return false;
 }
 
 
@@ -104,12 +135,20 @@ Rook::Rook(bool white)
 PieceType Rook::getPieceType() {
 	return this->pieceType;
 };
-bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece, 
 					int sourceX, int sourceY,
 					int killedX, int killedY) { //TODO add args and logic for returning true or false
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
 	int x = abs(sourceX - killedX);
 	int y = abs(sourceY - killedY);
-	if (x == 0 || y == 0) return true;
+	if (x == 0 || y == 0) 
+		return true;
+	else
+		return false;
 }
 
 
@@ -121,10 +160,38 @@ PieceType Pawn::getPieceType() {
 };
 void Pawn::getPromoted() { //TODO implementation of promotion
 }
-bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece, 
 					int sourceX, int sourceY,
 					int killedX, int killedY) { //TODO add args and logic for returning true or false
-	return 1;
+	if (killedPiece != NULL) {
+		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
+			return false;
+		}
+	}
+	int* x;
+	int* y;
+	if (sourcePiece->isWhite())
+	{
+		x = new int(killedX - sourceX);
+		y = new int(killedY - sourceY);
+	}
+	else
+	{
+		x = new int(sourceX - killedX);
+		y = new int(sourceY - killedY);
+	}
+
+	if ((killedPiece == NULL && *x == 0 && *y == 1) || (killedPiece != NULL && abs(*x) == 1 && *y == 1)) {
+		delete x;
+		delete y;
+		return true;
+	}
+	else {
+		delete x;
+		delete y;
+		return false;
+	}
+
 }
 bool Pawn::isValidEnPassant() {  //TODO add arguments
 	return 0; //TODO Logic for returning true or false 

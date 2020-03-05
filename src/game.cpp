@@ -36,6 +36,8 @@ bool Game::playerMove(Player player, int startX,
 bool Game::makeMove(Move move, Player player)
 {
 	Piece* sourcePiece = move.getStart()->getPiece();
+	Piece* killedPiece = move.getEnd()->getPiece();
+
 	if (sourcePiece == NULL) {
 		return false;
 	}
@@ -50,12 +52,14 @@ bool Game::makeMove(Move move, Player player)
 	}
 
 	// valid move? 
-	//if (!sourcePiece->canMove(/*board, move.getStart(), move.getEnd())*/ )) { // TODO
-	//	return false;
-	//}
+	if (!sourcePiece->canMove(sourcePiece, killedPiece, 
+							move.getStart()->getX(), move.getStart()->getY(), 
+							move.getEnd()->getX(), move.getEnd()->getY())){ // TODO
+		return false;
+	}
 
 	// kill? 
-	Piece* killedPiece = move.getPieceKilled();
+
 	if (killedPiece != NULL) {
 		killedPiece->setKilled(true);
 	}
@@ -74,7 +78,7 @@ bool Game::makeMove(Move move, Player player)
 	move.getEnd()->setPiece(move.getStart()->getPiece());
 	move.getStart()->setPiece(NULL);
 
-	if (killedPiece != NULL && killedPiece->getPieceType() == KING) {
+	if (killedPiece != NULL && killedPiece->getPieceType() == PieceType::KING) {
 		if (player.isWhiteSide()) {
 			this->gameStatus = GameStatus::WHITE_WINS;
 		}
@@ -113,17 +117,17 @@ void Game::printBoard() {
 
 			switch (p->getPieceType())
 			{
-			case KING: (p->isWhite() == true) ? cout << " K " : cout << " k ";
+			case PieceType::KING: (p->isWhite() == true) ? cout << " K " : cout << " k ";
 				break;
-			case QUEEN: (p->isWhite() == true) ? cout << " Q " : cout << " q ";
+			case PieceType::QUEEN: (p->isWhite() == true) ? cout << " Q " : cout << " q ";
 				break;
-			case BISHOP:(p->isWhite() == true) ? cout << " B " : cout << " b ";
+			case PieceType::BISHOP:(p->isWhite() == true) ? cout << " B " : cout << " b ";
 				break;
-			case KNIGHT:(p->isWhite() == true) ? cout << " H " : cout << " h ";
+			case PieceType::KNIGHT:(p->isWhite() == true) ? cout << " H " : cout << " h ";
 				break;
-			case ROOK: (p->isWhite() == true) ? cout << " R " : cout << " r ";
+			case PieceType::ROOK: (p->isWhite() == true) ? cout << " R " : cout << " r ";
 				break;
-			case PAWN: (p->isWhite() == true) ? cout << " P " : cout << " p ";
+			case PieceType::PAWN: (p->isWhite() == true) ? cout << " P " : cout << " p ";
 				break;
 			}
 
