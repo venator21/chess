@@ -1,23 +1,19 @@
 #pragma once
-
-class Piece;
+#include"piece.h"
 
 class Square {
-private:
-	int x;
-	int y;
-	Piece* piece;
-
-
-public:
+ public:
 	Square();
 	Square(int x, int y, Piece* piece);
-
+  void setPiece(Piece* piece);
+  Piece* getPiece();
 	void setX(int x);
 	int getX();
 	void setY(int y);
 	int getY();
-	void setPiece(Piece* piece);
-	Piece* getPiece();
-};
 
+ private:
+  int x;
+  int y;
+  Piece* piece;
+};

@@ -1,5 +1,4 @@
 #pragma once
-
 #include<iostream>
 #include"board.h"
 #include"move.h"
@@ -9,19 +8,19 @@
 enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 
 class Game {
-private:
-	Player player1;
-	Player player2;
-	Board board;
-	Player currentTurn;
-	GameStatus gameStatus;
-	std::list<Move> movesPlayed;
-
-public:
+ public:
 	Game();
 	void initializeGame(Player player1, Player player2);
 	Player getCurrentTurn();
 	bool playerMove(Player player, int startX, int startY, int endX, int endY);
 	bool makeMove(Move move, Player player);
 	void printBoard();
+
+ private:
+  Player player1;
+  Player player2;
+  Board board;
+  Player currentTurn;
+  GameStatus gameStatus;
+  std::list<Move> movesPlayed;
 };

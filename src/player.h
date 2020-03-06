@@ -1,24 +1,24 @@
 #pragma once
 
 class Player {
-protected:
-	bool whiteSide;
-	bool humanPlayer;
-public:
+ public:
 	bool isWhiteSide();
 	bool isHumanPlayer();
+ protected:
+  bool whiteSide;
+  bool humanPlayer;
 };
 
 class HumanPlayer : public Player {
-private:
-	bool humanPlayer = true;
-public:
+ public:
 	HumanPlayer(bool whiteSide);
+ private:
+  bool humanPlayer = true;
 };
 
 class ComputerPlayer : public Player {
-private:
-	bool humanPlayer = false;
-public:
-	ComputerPlayer(bool whiteSide);
+ private:
+  bool humanPlayer = false;
+ public:
+  ComputerPlayer(bool whiteSide);
 };

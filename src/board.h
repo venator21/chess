@@ -3,12 +3,14 @@
 #include"piece.h"
 
 class Board {
-private:
+ public:
+  Board();
+  void initializeBoard();
+  Square* getSquare(int x, int y);
+  bool isMovementPathClear(Board board,
+                           int sourceX, int sourceY,
+                           int killedX, int killedY);
+
+ private:
 	Square** grid = new Square* [8];
-
-
-public:
-	Board();
-	void initializeBoard();
-	Square* getSquare(int x, int y);
 };

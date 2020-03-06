@@ -3,28 +3,7 @@
 
 using namespace std;
 
-int transformMoveInput(char s) {
-	switch (s)
-	{
-	case 'A': 
-		return 1;
-	case 'B':
-		return 2;
-	case 'C':
-		return 3;
-	case 'D':
-		return 4;
-	case 'E':
-		return 5;
-	case 'F':
-		return 6;
-	case 'G':
-		return 7;
-	case 'H':
-		return 8;
-	}
-}
-
+int transformMoveInput(char s);
 
 int main() {
 	string move;
@@ -53,24 +32,32 @@ int main() {
 		cout << endl;
 		game.printBoard();
 	}
-	//cout << EndGameStatus << endl;
-
+  if (gameStatus == GameStatus::BLACK_WINS)
+    cout << "BLACK_WINS" << endl;
+  else if (gameStatus == GameStatus::WHITE_WINS)
+    cout << "WHITE_WINS" << endl;
+  else if (gameStatus == GameStatus::DRAW)
+    cout << "DRAW" << endl;
 }
-//Square* getSquare(int x, int y, Square** grid) {
-//	return (*(grid + x) + y);
-//}
-//
-//int main() {
-//
-//	Square** grid = new Square * [8];
-//	for (int i = 0; i < 8; ++i) {
-//		grid[i] = new Square[8];
-//	}
-//	*(*(grid + 0) + 0) = Square(0, 0, new Rook(true));
-//	*(*(grid + 1) + 0) = Square(1, 0, new Knight(true));
-//
-//	getSquare(0, 0, grid)->getPiece();
-//	getSquare(0, 0, grid)->setPiece(getSquare(1, 0, grid)->getPiece());
-//	getSquare(0, 0, grid)->getPiece();
-//
-//}
+
+int transformMoveInput(char s) {
+  switch (s)
+  {
+  case 'A':
+    return 1;
+  case 'B':
+    return 2;
+  case 'C':
+    return 3;
+  case 'D':
+    return 4;
+  case 'E':
+    return 5;
+  case 'F':
+    return 6;
+  case 'G':
+    return 7;
+  case 'H':
+    return 8;
+  }
+}

@@ -2,22 +2,19 @@
 #include"player.h"
 #include"square.h"
 
-
 class Move {
-private:
-	Player player;
-	Square* start;
-	Square* end;
-	Piece* pieceMoved;
-	Piece* pieceKilled; //TODO what to do with this
-	bool castlingMove = false;
-
-public:
+ public:
 	Move(Player player, Square* start, Square* end);
+  Square* getStart();
+  Square* getEnd();
 	bool isCastlingMove();
 	void setCastlingMove(bool castlingMove);
-	Square* getStart();
-	Square* getEnd();
 
-
+ private:
+  Player player;
+  Square* start;
+  Square* end;
+  Piece* pieceMoved;
+  Piece* pieceKilled;
+  bool castlingMove = false;
 };

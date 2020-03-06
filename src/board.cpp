@@ -1,15 +1,8 @@
 #include<iostream>
 #include"board.h"
 
-
-using namespace std;
-
 Board::Board() {
 	this->initializeBoard();
-}
-
-Square* Board::getSquare(int x, int y) {
-	return (*(grid + x) + y);
 }
 
 void Board::initializeBoard() {
@@ -50,3 +43,71 @@ void Board::initializeBoard() {
 		}
 	}
 }
+
+Square* Board::getSquare(int x, int y) {
+  return (*(grid + x) + y);
+}
+
+bool Board::isMovementPathClear(Board board,
+                                int sourceX, int sourceY,
+                                int killedX, int killedY) {
+  int x = abs(sourceX - killedX);
+  int y = abs(sourceY - killedY);
+  int* maxRange;
+  int* minRange;
+  if (x == 0)
+  {
+    if (sourceY > killedY)
+    {
+      maxRange = &sourceY;
+      minRange = &killedY;
+    }
+    else
+    {
+      maxRange = &killedY;
+      minRange = &sourceY;
+    }
+    for (int i = *minRange + 1; i < *maxRange; i++)
+    {
+      if (board.getSquare(killedX, i) != NULL)
+        return false;
+    }
+  }
+  if (y == 0)
+  {
+    if (sourceX > killedX)
+    {
+      maxRange = &sourceX;
+      minRange = &killedX;
+    }
+    else
+    {
+      maxRange = &killedX;
+      minRange = &sourceX;
+    }
+    for (int i = *minRange + 1; i < *maxRange; i++)
+    {
+      if (board.getSquare(i, killedY) != NULL)
+        return false;
+    }
+  }
+  if (x == y)
+  {
+    if (sourceY > killedY)
+    {
+      maxRange = &sourceY;
+      minRange = &killedY;
+    }
+    else
+    {
+      maxRange = &killedY;
+      minRange = &sourceY;
+    }
+    for (int i = *minRange + 1; i < *maxRange; i++)
+    {
+      if (board.getSquare(i, i) != NULL)
+        return false;
+    }
+  }
+  return true;
+ }

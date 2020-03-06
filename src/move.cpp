@@ -8,6 +8,14 @@ Move::Move(Player player, Square* start, Square* end) {
 	this->pieceKilled = end->getPiece();
 }
 
+Square* Move::getStart() {
+  return this->start;
+}
+
+Square* Move::getEnd() {
+  return this->end;
+}
+
 bool Move::isCastlingMove() {
 	return this->castlingMove == true;
 }
@@ -16,14 +24,3 @@ void Move::setCastlingMove(bool castlingMove)
 {
 	this->castlingMove = castlingMove;
 }
-
-Square* Move::getStart(){
-	return this->start;
-}
-
-Square* Move::getEnd() {
-	return this->end;
-}
-
-
-

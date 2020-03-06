@@ -2,9 +2,7 @@
 #include<cstdlib>
 #include"piece.h"
 
-
 using namespace std;
-
 
 Piece::Piece(bool white) {
 	this->setWhite(white);
@@ -27,14 +25,7 @@ King::King(bool white)
 	: Piece{ white } {
 }
 PieceType King::getPieceType() {
-	return this->pieceType;
-};
-bool King::isValidCastling(){  //TODO add arguments
-
-	if (this->isCastlingDone()) {
-		return false;
-	}
-	return 0;//TODO Logic for returning true or false 
+  return this->pieceType;
 }
 bool King::isCastlingDone() {
 	return this->castlingDone == true;
@@ -43,8 +34,8 @@ void King::setCastlingDone(bool castlingDone) {
 	this->castlingDone = castlingDone;
 }
 bool King::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) {
+					         int sourceX, int sourceY,
+					         int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
@@ -57,8 +48,12 @@ bool King::canMove(Piece* sourcePiece, Piece* killedPiece,
 	else
 		return false;
 }
-
-
+bool King::isValidCastling() {  //TODO add arguments
+  if (this->isCastlingDone()) {
+    return false;
+  }
+  return 0;//TODO Logic for returning true or false 
+}
 
 
 Queen::Queen(bool white)
@@ -66,10 +61,10 @@ Queen::Queen(bool white)
 }
 PieceType Queen::getPieceType() {
 	return this->pieceType;
-};
+}
 bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) { //TODO add args and logic for returning true or false
+					          int sourceX, int sourceY,
+					          int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
@@ -84,16 +79,15 @@ bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece,
 }
 
 
-
 Bishop::Bishop(bool white)
 	: Piece{ white } {
 }
 PieceType Bishop::getPieceType() {
 	return this->pieceType;
-};
+}
 bool Bishop::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) { //TODO add args and logic for returning true or false
+					           int sourceX, int sourceY,
+					           int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
@@ -111,10 +105,10 @@ Knight::Knight(bool white)
 }
 PieceType Knight::getPieceType() {
 	return this->pieceType;
-};
+}
 bool Knight::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) { //TODO add args and logic for returning true or false
+					           int sourceX, int sourceY,
+					           int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
@@ -134,10 +128,10 @@ Rook::Rook(bool white)
 }
 PieceType Rook::getPieceType() {
 	return this->pieceType;
-};
+}
 bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) { //TODO add args and logic for returning true or false
+					         int sourceX, int sourceY,
+					         int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
@@ -158,18 +152,18 @@ Pawn::Pawn(bool white)
 PieceType Pawn::getPieceType() {
 	return this->pieceType;
 };
-void Pawn::getPromoted() { //TODO implementation of promotion
-}
 bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece, 
-					int sourceX, int sourceY,
-					int killedX, int killedY) { //TODO add args and logic for returning true or false
+					         int sourceX, int sourceY,
+					         int killedX, int killedY) {
 	if (killedPiece != NULL) {
 		if (sourcePiece->isWhite() == killedPiece->isWhite()) {
 			return false;
 		}
 	}
+
 	int* x;
 	int* y;
+
 	if (sourcePiece->isWhite())
 	{
 		x = new int(killedX - sourceX);
@@ -194,8 +188,5 @@ bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
 
 }
 bool Pawn::isValidEnPassant() {  //TODO add arguments
-	return 0; //TODO Logic for returning true or false 
-}
-bool Pawn::isValidPromotion() {  //TODO add arguments
 	return 0; //TODO Logic for returning true or false 
 }
