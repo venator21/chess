@@ -4,12 +4,14 @@ Square::Square() {
 	this->setX(x);
 	this->setY(y);
 	this->setPiece(piece);
+  this->promotion = promotion;
 }
 
-Square::Square(int x, int y, Piece* piece) {
+Square::Square(int x, int y, Piece* piece, bool promotion) {
 	this->setX(x);
 	this->setY(y);
 	this->setPiece(piece);
+  this->promotion = promotion;
 }
 
 void Square::setPiece(Piece* piece) {
@@ -34,4 +36,8 @@ void Square::setY(int y) {
 
 int Square::getY() {
 	return this->y;
+}
+
+bool Square::getPromotion() {
+  return this->promotion;
 }

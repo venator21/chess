@@ -10,7 +10,6 @@ class Board {
   bool isMovementPathClear(Board board,
                            int sourceX, int sourceY,
                            int killedX, int killedY);
-
  private:
 	Square** grid = new Square* [8];
 };

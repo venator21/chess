@@ -1,5 +1,7 @@
 #include"game.h"
 
+using namespace std;
+
 Game::Game() {
 	this->player1 = HumanPlayer(true);
 	this->player2 = HumanPlayer(false);
@@ -73,6 +75,34 @@ bool Game::makeMove(Move move, Player player)
 	// move piece from the start square to end square 
 	move.getEnd()->setPiece(move.getStart()->getPiece());
 	move.getStart()->setPiece(NULL);
+
+  // promotion?
+  if (sourcePiece->getPieceType() == PieceType::PAWN && move.getEnd()->getPromotion() == true)
+  {
+    int promotionPiece = 0;
+    while (promotionPiece < 1 || promotionPiece > 4)
+    {
+      cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
+      cin >> promotionPiece;
+    }
+    delete move.getEnd()->getPiece();
+    if (promotionPiece == 1)
+    {
+      move.getEnd()->setPiece(new Queen(currentTurn.isWhiteSide()));
+    }
+    else if (promotionPiece == 2)
+    {
+      move.getEnd()->setPiece(new Bishop(currentTurn.isWhiteSide()));
+    }
+    else if (promotionPiece == 3)
+    {
+      move.getEnd()->setPiece(new Knight(currentTurn.isWhiteSide()));
+    }
+    else if (promotionPiece == 4)
+    {
+      move.getEnd()->setPiece(new Rook(currentTurn.isWhiteSide()));
+    }
+  }
 
   // check win condition
 	if (killedPiece != NULL && killedPiece->getPieceType() == PieceType::KING) {

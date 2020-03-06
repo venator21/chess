@@ -148,6 +148,7 @@ bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece,
 
 Pawn::Pawn(bool white)
 	: Piece{ white } {
+  this->firstMove = true;
 }
 PieceType Pawn::getPieceType() {
 	return this->pieceType;
@@ -175,14 +176,16 @@ bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
 		y = new int(sourceY - killedY);
 	}
 
-	if ((killedPiece == NULL && *x == 0 && *y == 1) || (killedPiece != NULL && abs(*x) == 1 && *y == 1)) {
+	if ((killedPiece == NULL && *x == 0 && (*y == 1 || *y == 2 && this->firstMove == true)) || (killedPiece != NULL && abs(*x) == 1 && *y == 1)) {
 		delete x;
 		delete y;
+    this->firstMove = false;
 		return true;
 	}
 	else {
 		delete x;
 		delete y;
+    this->firstMove = false;
 		return false;
 	}
 
