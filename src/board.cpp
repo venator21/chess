@@ -55,6 +55,10 @@ bool Board::isMovementPathClear(Board board,
   int y = abs(sourceY - killedY);
   int* maxRange;
   int* minRange;
+  int* maxX;
+  int* minX;
+  int* maxY;
+  int* minY;
   if (x == 0)
   {
     if (sourceY > killedY)
@@ -77,18 +81,31 @@ bool Board::isMovementPathClear(Board board,
   {
     if (sourceX > killedX)
     {
-      maxRange = &sourceX;
-      minRange = &killedX;
+      maxX = &sourceX;
+      minX = &killedX;
     }
     else
     {
-      maxRange = &killedX;
-      minRange = &sourceX;
+      maxX = &killedX;
+      minX = &sourceX;
     }
-    for (int i = *minRange + 1; i < *maxRange; i++)
+    if (sourceY > killedY)
     {
-      if (board.getSquare(i, killedY)->getPiece() != NULL)
-        return false;
+      maxY = &sourceY;
+      minY = &killedY;
+    }
+    else
+    {
+      maxY = &killedY;
+      minY = &sourceY;
+    }
+    for (int i = *minX + 1; i < *maxX; i++)
+    {
+      for (int j = *minY + 1; j < *maxY; j++)
+      {
+        if (board.getSquare(i, j)->getPiece() != NULL)
+          return false;
+      }
     }
   }
   if (x == y)
