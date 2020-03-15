@@ -1,4 +1,5 @@
-#include <iostream>
+#include<iostream>
+#include<stdlib.h>
 #include"game.h"
 
 using namespace std;
@@ -29,7 +30,8 @@ int main() {
 			cout << "wrong move! try again." << endl;
 			continue;
 		}
-		cout << endl;
+		//cout << endl;
+		system("CLS");
 		game.printBoard();
 	}
   if (gameStatus == GameStatus::BLACK_WINS)

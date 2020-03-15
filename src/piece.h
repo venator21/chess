@@ -9,6 +9,8 @@ class Piece {
 	bool isWhite();
 	void setKilled(bool killed);
 	bool isKilled();
+  void setFirstMoved();
+  bool isFirstMove();
 	virtual PieceType getPieceType() = 0;
 	virtual bool canMove(Piece* sourcePiece, Piece* killedPiece, 
 					             int sourceX, int sourceY,
@@ -16,21 +18,18 @@ class Piece {
  private:
 	bool killed = false;
 	bool white = false;
+  bool firstMove = true;
 };
 
 class King : public Piece {
- public:
+public:
   King(bool white);
-  bool isCastlingDone();
-  void setCastlingDone(bool castlingDone);
   virtual PieceType getPieceType();
   virtual bool canMove(Piece* sourcePiece, Piece* killedPiece,
-                       int sourceX, int sourceY,
-                       int killedX, int killedY);
- private:
-	PieceType pieceType = PieceType::KING;
-	bool castlingDone = false;
-	bool isValidCastling();  //TODO
+    int sourceX, int sourceY,
+    int killedX, int killedY);
+private:
+  PieceType pieceType = PieceType::KING;
 };
 
 class Queen : public Piece {
@@ -86,6 +85,5 @@ class Pawn : public Piece {
 					             int killedX, int killedY);
  private:
   PieceType pieceType = PieceType::PAWN;
-  bool firstMove;
   bool isValidEnPassant();  //TODO add arguments
 };

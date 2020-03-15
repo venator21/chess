@@ -10,6 +10,7 @@ class Board {
   bool isMovementPathClear(Board board,
                            int sourceX, int sourceY,
                            int killedX, int killedY);
+  bool isValidCastling(Board board, Square* startSquare, Square* endSquare);
  private:
 	Square** grid = new Square* [8];
 };

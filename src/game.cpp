@@ -36,6 +36,7 @@ bool Game::makeMove(Move move, Player player)
 {
 	Piece* sourcePiece = move.getStart()->getPiece();
 	Piece* killedPiece = move.getEnd()->getPiece();
+  bool isCastling = board.isValidCastling(board, move.getStart(), move.getEnd());
 
   // is there a source piece to move? 
 	if (sourcePiece == NULL) {
@@ -47,13 +48,18 @@ bool Game::makeMove(Move move, Player player)
 		return false;
 	}
 
-	// valid piece movement? 
-	if (!sourcePiece->canMove(sourcePiece, killedPiece, 
-							              move.getStart()->getX(), move.getStart()->getY(), 
-							              move.getEnd()->getX(), move.getEnd()->getY())){
-		return false;
-	}
-
+	// valid piece movement?
+  if (isCastling)
+  {
+  }
+  else
+  {
+    if (!sourcePiece->canMove(sourcePiece, killedPiece,
+                              move.getStart()->getX(), move.getStart()->getY(),
+                              move.getEnd()->getX(), move.getEnd()->getY())) {
+      return false;
+    }
+  }
   // valid board movement? 
   if (sourcePiece->getPieceType() != PieceType::KNIGHT)
   {
@@ -72,9 +78,31 @@ bool Game::makeMove(Move move, Player player)
 	// store the move 
 	movesPlayed.push_back(move);
 
-	// move piece from the start square to end square 
+
+  // is casteling valid and being played?
+  if (board.isValidCastling(board, move.getStart(), move.getEnd()))
+  {
+    //if true move rook to the proper position
+    if (move.getEnd()->getX() == 6)
+    {
+      board.getSquare(5, move.getEnd()->getY())->setPiece(board.getSquare(7, move.getEnd()->getY())->getPiece());
+      board.getSquare(7, move.getEnd()->getY())->setPiece(NULL);
+    }
+    else if (move.getEnd()->getX() == 2)
+    {
+      board.getSquare(3, move.getEnd()->getY())->setPiece(board.getSquare(0, move.getEnd()->getY())->getPiece());
+      board.getSquare(0, move.getEnd()->getY())->setPiece(NULL);
+    }
+  }
+	// move source piece from the start square to end square 
 	move.getEnd()->setPiece(move.getStart()->getPiece());
 	move.getStart()->setPiece(NULL);
+
+  // first movement of piece instance? 
+  if (sourcePiece->isFirstMove() == true)
+  {
+    sourcePiece->setFirstMoved();
+  }
 
   // promotion?
   if (sourcePiece->getPieceType() == PieceType::PAWN && move.getEnd()->getPromotion() == true)

@@ -19,19 +19,18 @@ void Piece::setKilled(bool killed) {
 bool Piece::isKilled() {
 	return this->killed;
 }
-
+void Piece::setFirstMoved() {
+  this->firstMove = false;
+}
+bool Piece::isFirstMove() {
+  return this->firstMove;
+}
 
 King::King(bool white)
 	: Piece{ white } {
 }
 PieceType King::getPieceType() {
   return this->pieceType;
-}
-bool King::isCastlingDone() {
-	return this->castlingDone == true;
-}
-void King::setCastlingDone(bool castlingDone) {
-	this->castlingDone = castlingDone;
 }
 bool King::canMove(Piece* sourcePiece, Piece* killedPiece, 
 					         int sourceX, int sourceY,
@@ -43,16 +42,16 @@ bool King::canMove(Piece* sourcePiece, Piece* killedPiece,
 	}
 	int x = abs(sourceX - killedX);
 	int y = abs(sourceY - killedY);
+  if (x > 1)
+    return false;
+
+  if (y > 1)
+    return false;
+
 	if (x + y <= 2)
 		return true;
 	else
 		return false;
-}
-bool King::isValidCastling() {  //TODO add arguments
-  if (this->isCastlingDone()) {
-    return false;
-  }
-  return 0;//TODO Logic for returning true or false 
 }
 
 
@@ -148,7 +147,6 @@ bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece,
 
 Pawn::Pawn(bool white)
 	: Piece{ white } {
-  this->firstMove = true;
 }
 PieceType Pawn::getPieceType() {
 	return this->pieceType;
@@ -176,16 +174,14 @@ bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
 		y = new int(sourceY - killedY);
 	}
 
-	if ((killedPiece == NULL && *x == 0 && (*y == 1 || *y == 2 && this->firstMove == true)) || (killedPiece != NULL && abs(*x) == 1 && *y == 1)) {
+	if ((killedPiece == NULL && *x == 0 && (*y == 1 || *y == 2 && this->isFirstMove() == true)) || (killedPiece != NULL && abs(*x) == 1 && *y == 1)) {
 		delete x;
 		delete y;
-    this->firstMove = false;
 		return true;
 	}
 	else {
 		delete x;
 		delete y;
-    this->firstMove = false;
 		return false;
 	}
 

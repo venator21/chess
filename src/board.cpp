@@ -79,52 +79,117 @@ bool Board::isMovementPathClear(Board board,
   }
   if (y == 0)
   {
-    if (sourceX > killedX)
-    {
-      maxX = &sourceX;
-      minX = &killedX;
-    }
-    else
-    {
-      maxX = &killedX;
-      minX = &sourceX;
-    }
-    if (sourceY > killedY)
-    {
-      maxY = &sourceY;
-      minY = &killedY;
-    }
-    else
-    {
-      maxY = &killedY;
-      minY = &sourceY;
-    }
-    for (int i = *minX + 1; i < *maxX; i++)
-    {
-      for (int j = *minY + 1; j < *maxY; j++)
-      {
-        if (board.getSquare(i, j)->getPiece() != NULL)
-          return false;
-      }
-    }
+	  if (sourceX > killedX)
+	  {
+		  maxRange = &sourceX;
+		  minRange = &killedX;
+	  }
+	  else
+	  {
+		  maxRange = &killedX;
+		  minRange = &sourceX;
+	  }
+	  for (int i = *minRange + 1; i < *maxRange; i++)
+	  {
+		  if (board.getSquare(i, i)->getPiece() != NULL)
+			  return false;
+	  }
   }
   if (x == y)
   {
-    if (sourceY > killedY)
-    {
-      maxRange = &sourceY;
-      minRange = &killedY;
-    }
-    else
-    {
-      maxRange = &killedY;
-      minRange = &sourceY;
-    }
-    for (int i = *minRange + 1; i < *maxRange; i++)
-    {
-      if (board.getSquare(i, i)->getPiece() != NULL)
-        return false;
-    }
-  }
+		if (sourceX > killedX)
+		{
+			maxX = &sourceX;
+			minX = &killedX;
+		}
+		else
+		{
+			maxX = &killedX;
+			minX = &sourceX;
+		}
+		if (sourceY > killedY)
+		{
+			maxY = &sourceY;
+			minY = &killedY;
+		}
+		else
+		{
+			maxY = &killedY;
+			minY = &sourceY;
+		}
+		for (int i = *minX + 1, j = *minY + 1; i < *maxX || j < *maxY; i++, j++)
+		{
+			if (board.getSquare(i, j)->getPiece() != NULL)
+				return false;
+		}
+	}
   return true;
  }
+
+bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare) {
+  int xDiff = startSquare->getX() - endSquare->getX();
+  int yDiff = startSquare->getY() - endSquare->getY();
+  int* rookX = new int;
+  int rookY = startSquare->getY();
+
+  if (startSquare->getPiece()->getPieceType() != PieceType::KING)
+    return false;
+
+  if (startSquare->getPiece()->isFirstMove() != true)
+  {
+    return false;
+  }
+  if (yDiff != 0)
+  {
+    return false;
+  }
+  if (!(xDiff == 2 || xDiff == -2))
+  {
+    return false;
+  }
+
+  if (xDiff == 2)
+  {
+    *rookX = 0;
+  }
+  else if (xDiff == -2)
+  {
+    *rookX = 7;
+  }
+
+  if (board.getSquare(*rookX, rookY)->getPiece()->isFirstMove() == false)
+  {
+    delete rookX;
+    return false;
+  }
+
+  int* minRange = new int;
+  int* maxRange = new int;
+
+  if (*rookX == 0)
+  {
+    *minRange = 0;
+    *maxRange = 4;
+  }
+  else if (*rookX == 7)
+  {
+    *minRange = 4;
+    *maxRange = 7;
+  }
+  for (int i = *minRange + 1; i < *maxRange; i++)
+  {
+    if (board.getSquare(i, rookY)->getPiece() != NULL)
+    {
+      delete rookX;
+      delete minRange;
+      delete maxRange;
+      return false;
+    }
+  }
+
+  delete rookX;
+  delete minRange;
+  delete maxRange;
+
+  return true;//TODO Logic for returning true or false 
+}
