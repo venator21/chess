@@ -15,6 +15,7 @@ class Game {
 	bool playerMove(Player player, int startX, int startY, int endX, int endY);
 	bool makeMove(Move move, Player player);
 	void printBoard();
+  GameStatus getGameStatus();
 
  private:
   Player player1;

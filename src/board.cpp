@@ -55,10 +55,7 @@ bool Board::isMovementPathClear(Board board,
   int y = abs(sourceY - killedY);
   int* maxRange;
   int* minRange;
-  int* maxX;
-  int* minX;
-  int* maxY;
-  int* minY;
+  
   if (x == 0)
   {
     if (sourceY > killedY)
@@ -97,32 +94,39 @@ bool Board::isMovementPathClear(Board board,
   }
   if (x == y)
   {
-		if (sourceX > killedX)
-		{
-			maxX = &sourceX;
-			minX = &killedX;
-		}
-		else
-		{
-			maxX = &killedX;
-			minX = &sourceX;
-		}
-		if (sourceY > killedY)
-		{
-			maxY = &sourceY;
-			minY = &killedY;
-		}
-		else
-		{
-			maxY = &killedY;
-			minY = &sourceY;
-		}
-		for (int i = *minX + 1, j = *minY + 1; i < *maxX || j < *maxY; i++, j++)
-		{
-			if (board.getSquare(i, j)->getPiece() != NULL)
-				return false;
-		}
-	}
+    if (sourceX < killedX && sourceY < killedY) //north east
+    {
+      for (int i = sourceX + 1, j = sourceY + 1; i < killedX || j < killedY; i++, j++)
+      {
+        if (board.getSquare(i, j)->getPiece() != NULL)
+          return false;
+      }
+    }
+    if (sourceX < killedX && sourceY > killedY) //south east
+    {
+      for (int i = sourceX + 1, j = sourceY - 1; i < killedX || j > killedY; i++, j--)
+      {
+        if (board.getSquare(i, j)->getPiece() != NULL)
+          return false;
+      }
+    }
+    if (sourceX > killedX&& sourceY > killedY) //south west
+    {
+      for (int i = sourceX - 1, j = sourceY - 1; i < killedX || j > killedY; i--, j--)
+      {
+        if (board.getSquare(i, j)->getPiece() != NULL)
+          return false;
+      }
+    }
+    if (sourceX > killedX&& sourceY < killedY) //north west
+    {
+      for (int i = sourceX - 1, j = sourceY + 1; i < killedX || j < killedY; i--, j++)
+      {
+        if (board.getSquare(i, j)->getPiece() != NULL)
+          return false;
+      }
+    }
+  }
   return true;
  }
 

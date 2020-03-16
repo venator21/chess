@@ -12,11 +12,10 @@ int main() {
 	int startY;
 	int endX;
 	int endY;
-	GameStatus gameStatus = GameStatus::ACTIVE;
 	Game game;
 
 	game.printBoard();
-	while (gameStatus == GameStatus::ACTIVE) {
+	while (game.getGameStatus() == GameStatus::ACTIVE) {
 		string turn = (game.getCurrentTurn().isWhiteSide() ? "WHITE's" : "BLACK's");
 		cout << turn << " turn: ";
 		cin >> move;
@@ -33,13 +32,18 @@ int main() {
 		//cout << endl;
 		system("CLS");
 		game.printBoard();
-	}
-  if (gameStatus == GameStatus::BLACK_WINS)
-    cout << "BLACK_WINS" << endl;
-  else if (gameStatus == GameStatus::WHITE_WINS)
-    cout << "WHITE_WINS" << endl;
-  else if (gameStatus == GameStatus::DRAW)
-    cout << "DRAW" << endl;
+	
+    if (game.getGameStatus() == GameStatus::BLACK_WINS) {
+      cout << "BLACK_WINS" << endl;
+    }
+    else if (game.getGameStatus() == GameStatus::WHITE_WINS) {
+      cout << "WHITE_WINS" << endl;
+    }
+    else if (game.getGameStatus() == GameStatus::DRAW) {
+      cout << "DRAW" << endl;
+    }
+
+  }
 }
 
 int transformMoveInput(char s) {

@@ -3,6 +3,7 @@
 using namespace std;
 
 Game::Game() {
+  this->gameStatus = GameStatus::ACTIVE;
 	this->player1 = HumanPlayer(true);
 	this->player2 = HumanPlayer(false);
 	this->initializeGame(player1, player2);
@@ -163,7 +164,7 @@ void Game::printBoard() {
 		{
 			Piece* p = board.getSquare(j, i)->getPiece();
 			if (p == NULL) {
-				cout << " " << " " << " ";
+				cout << " " << "\1" << " ";
 				continue;
 			}
 			switch (p->getPieceType())
@@ -188,4 +189,6 @@ void Game::printBoard() {
 	cout << "    A  B  C  D  E  F  G  H " << endl;
 }
 
-
+GameStatus Game::getGameStatus() {
+  return this->gameStatus;
+}
