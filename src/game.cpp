@@ -1,3 +1,4 @@
+#include<iostream>
 #include"game.h"
 
 using namespace std;
@@ -50,9 +51,7 @@ bool Game::makeMove(Move move, Player player)
 	}
 
 	// valid piece movement?
-  if (isCastling)
-  {
-  }
+  if (isCastling) {}
   else
   {
     if (!sourcePiece->canMove(sourcePiece, killedPiece,
@@ -192,3 +191,34 @@ void Game::printBoard() {
 GameStatus Game::getGameStatus() {
   return this->gameStatus;
 }
+
+bool Game::isEnPassant() {
+  Move lastMove = this->movesPlayed.back();
+
+  if (lastMove.getEnd()->getPiece()->getPieceType() != PieceType::PAWN)
+    return false;
+
+  int yDiff = lastMove.getEnd()->getY()- lastMove.getStart()->getY();
+
+  if (!(yDiff == 2 && lastMove.getEnd()->getPiece()->isWhite() == true || yDiff == -2 && lastMove.getEnd()->getPiece()->isWhite() == false))
+  {
+    return false;
+  }
+}
+
+std::list<int> Game::EnPassantTarget() {
+  Move lastMove = this->movesPlayed.back();
+  int yDiff = lastMove.getEnd()->getY() - lastMove.getStart()->getY();
+
+  if (yDiff == 2)
+  {
+    std::list<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() - 1 };
+    return target;
+  }
+  else if (yDiff == -2)
+  {
+    std::list<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() + 1 };
+    return target;
+  }
+}
+

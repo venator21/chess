@@ -16,6 +16,8 @@ class Game {
 	bool makeMove(Move move, Player player);
 	void printBoard();
   GameStatus getGameStatus();
+  bool isEnPassant();
+  std::list<int> EnPassantTarget();
 
  private:
   Player player1;

@@ -184,8 +184,4 @@ bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
 		delete y;
 		return false;
 	}
-
-}
-bool Pawn::isValidEnPassant() {  //TODO add arguments
-	return 0; //TODO Logic for returning true or false 
 }

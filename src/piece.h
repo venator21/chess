@@ -85,5 +85,4 @@ class Pawn : public Piece {
 					             int killedX, int killedY);
  private:
   PieceType pieceType = PieceType::PAWN;
-  bool isValidEnPassant();  //TODO add arguments
 };

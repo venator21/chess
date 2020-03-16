@@ -195,5 +195,5 @@ bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare)
   delete minRange;
   delete maxRange;
 
-  return true;//TODO Logic for returning true or false 
+  return true;
 }
