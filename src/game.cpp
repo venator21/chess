@@ -38,7 +38,7 @@ bool Game::makeMove(Move move, Player player)
 {
 	Piece* sourcePiece = move.getStart()->getPiece();
 	Piece* killedPiece = move.getEnd()->getPiece();
-  bool isCastling = board.isValidCastling(board, move.getStart(), move.getEnd());
+
 
   // is there a source piece to move? 
 	if (sourcePiece == NULL) {
@@ -50,8 +50,14 @@ bool Game::makeMove(Move move, Player player)
 		return false;
 	}
 
+
+  bool isCastling = board.isValidCastling(board, move.getStart(), move.getEnd());
+  std::vector<int> enPassantTarget = this->EnPassantTarget();
+
 	// valid piece movement?
   if (isCastling) {}
+  else if (this->isEnPassant() && sourcePiece->getPieceType() == PieceType::PAWN && 
+        move.getEnd()->getX() == enPassantTarget[0] && move.getEnd()->getY() == enPassantTarget[1]) {}
   else
   {
     if (!sourcePiece->canMove(sourcePiece, killedPiece,
@@ -75,9 +81,6 @@ bool Game::makeMove(Move move, Player player)
 		killedPiece->setKilled(true);
 	}
 
-	// store the move 
-	movesPlayed.push_back(move);
-
 
   // is casteling valid and being played?
   if (board.isValidCastling(board, move.getStart(), move.getEnd()))
@@ -94,6 +97,13 @@ bool Game::makeMove(Move move, Player player)
       board.getSquare(0, move.getEnd()->getY())->setPiece(NULL);
     }
   }
+  // is enPassant valid and being played?
+  if (this->isEnPassant() && sourcePiece->getPieceType() == PieceType::PAWN &&
+    move.getEnd()->getX() == enPassantTarget[0] && move.getEnd()->getY() == enPassantTarget[1])
+  {
+    movesPlayed.back().getEnd()->setPiece(NULL);
+  }
+
 	// move source piece from the start square to end square 
 	move.getEnd()->setPiece(move.getStart()->getPiece());
 	move.getStart()->setPiece(NULL);
@@ -131,6 +141,9 @@ bool Game::makeMove(Move move, Player player)
       move.getEnd()->setPiece(new Rook(currentTurn.isWhiteSide()));
     }
   }
+
+  // store the move 
+  movesPlayed.push_back(move);
 
   // check win condition
 	if (killedPiece != NULL && killedPiece->getPieceType() == PieceType::KING) {
@@ -193,6 +206,9 @@ GameStatus Game::getGameStatus() {
 }
 
 bool Game::isEnPassant() {
+  if (this->movesPlayed.size() == 0)
+    return false;
+
   Move lastMove = this->movesPlayed.back();
 
   if (lastMove.getEnd()->getPiece()->getPieceType() != PieceType::PAWN)
@@ -204,20 +220,31 @@ bool Game::isEnPassant() {
   {
     return false;
   }
+  return true;
 }
 
-std::list<int> Game::EnPassantTarget() {
+std::vector<int> Game::EnPassantTarget() {
+
+  if (this->movesPlayed.size() == 0) {
+    std::vector<int> target = { -1, -1 };
+    return target;
+  }
   Move lastMove = this->movesPlayed.back();
   int yDiff = lastMove.getEnd()->getY() - lastMove.getStart()->getY();
 
   if (yDiff == 2)
   {
-    std::list<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() - 1 };
+    std::vector<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() - 1 };
     return target;
   }
   else if (yDiff == -2)
   {
-    std::list<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() + 1 };
+    std::vector<int> target = { lastMove.getEnd()->getX(), lastMove.getEnd()->getY() + 1 };
+    return target;
+  }
+  else
+  {
+    std::vector<int> target = { -1, -1 };
     return target;
   }
 }

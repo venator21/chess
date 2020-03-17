@@ -4,6 +4,7 @@
 #include"move.h"
 #include"piece.h"
 #include <list>
+#include <vector>
 
 enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 
@@ -17,7 +18,7 @@ class Game {
 	void printBoard();
   GameStatus getGameStatus();
   bool isEnPassant();
-  std::list<int> EnPassantTarget();
+  std::vector<int> EnPassantTarget();
 
  private:
   Player player1;
