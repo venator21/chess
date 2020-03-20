@@ -2,8 +2,8 @@
 
 class Player {
  public:
-	bool isWhiteSide();
-	bool isHumanPlayer();
+  bool isWhiteSide();
+  bool isHumanPlayer();
  protected:
   bool whiteSide;
   bool humanPlayer;
@@ -11,7 +11,7 @@ class Player {
 
 class HumanPlayer : public Player {
  public:
-	HumanPlayer(bool whiteSide);
+  HumanPlayer(bool whiteSide);
  private:
   bool humanPlayer = true;
 };

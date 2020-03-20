@@ -28,7 +28,7 @@ void Board::initializeBoard() {
   *(*(grid + 6) + 7) = Square(6, 7, new Knight(false), true);
   *(*(grid + 7) + 7) = Square(7, 7, new Rook(false), true);
 
-
+ 
   for (int x = 0; x < 8; x++) {
     *(*(grid + x) + 1) = Square(x, 1, new Pawn(true), false);
   }
@@ -56,7 +56,8 @@ bool Board::isMovementPathClear(Board board,
   int* maxRange;
   int* minRange;
 
-  if (x == 0)
+  //vertical movement
+  if (x == 0) 
   {
     if (sourceY > killedY)
     {
@@ -75,6 +76,7 @@ bool Board::isMovementPathClear(Board board,
     }
   }
 
+  //horizontal movement
   if (y == 0)
   {
     if (sourceX > killedX)
@@ -94,9 +96,11 @@ bool Board::isMovementPathClear(Board board,
     }
   }
 
+  //diagonal movement
   if (x == y)
   {
-    if (sourceX < killedX && sourceY < killedY) //north east
+    //north east
+    if (sourceX < killedX && sourceY < killedY) 
     {
       for (int i = sourceX + 1, j = sourceY + 1; i < killedX || j < killedY; i++, j++)
       {
@@ -104,7 +108,8 @@ bool Board::isMovementPathClear(Board board,
           return false;
       }
     }
-    if (sourceX < killedX && sourceY > killedY) //south east
+    //south east
+    if (sourceX < killedX && sourceY > killedY) 
     {
       for (int i = sourceX + 1, j = sourceY - 1; i < killedX || j > killedY; i++, j--)
       {
@@ -112,7 +117,8 @@ bool Board::isMovementPathClear(Board board,
           return false;
       }
     }
-    if (sourceX > killedX&& sourceY > killedY) //south west
+    //south west
+    if (sourceX > killedX&& sourceY > killedY) 
     {
       for (int i = sourceX - 1, j = sourceY - 1; i < killedX || j > killedY; i--, j--)
       {
@@ -120,7 +126,8 @@ bool Board::isMovementPathClear(Board board,
           return false;
       }
     }
-    if (sourceX > killedX&& sourceY < killedY) //north west
+    //north west
+    if (sourceX > killedX&& sourceY < killedY) 
     {
       for (int i = sourceX - 1, j = sourceY + 1; i < killedX || j < killedY; i--, j++)
       {
@@ -145,15 +152,20 @@ bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare)
   {
     return false;
   }
-  if (yDiff != 0)
-  {
-    return false;
-  }
-  if (!(xDiff == 2 || xDiff == -2))
+
+  //while castling king movement is horizontal
+  if (yDiff != 0) 
   {
     return false;
   }
 
+  //while castling king destination can only result in two specific squares
+  if (!(xDiff == 2 || xDiff == -2)) 
+  {
+    return false;
+  }
+
+  // X-wise - check which rook is participating, Y already derived from King position
   if (xDiff == 2)
   {
     *rookX = 0;
@@ -182,6 +194,8 @@ bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare)
     *minRange = 4;
     *maxRange = 7;
   }
+
+  //check if path between king and rook is clear
   for (int i = *minRange + 1; i < *maxRange; i++)
   {
     if (board.getSquare(i, rookY)->getPiece() != NULL)

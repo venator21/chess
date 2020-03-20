@@ -4,11 +4,11 @@
 
 class Move {
  public:
-	Move(Player player, Square* start, Square* end);
+  Move(Player player, Square* start, Square* end);
   Square* getStart();
   Square* getEnd();
-	bool isCastlingMove();
-	void setCastlingMove(bool castlingMove);
+  bool isCastlingMove();
+  void setCastlingMove(bool castlingMove);
 
  private:
   Player player;

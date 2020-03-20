@@ -1,16 +1,16 @@
 #include"square.h"
 
 Square::Square() {
-	this->setX(x);
-	this->setY(y);
-	this->setPiece(piece);
+  this->setX(x);
+  this->setY(y);
+  this->setPiece(piece);
   this->promotion = promotion;
 }
 
 Square::Square(int x, int y, Piece* piece, bool promotion) {
-	this->setX(x);
-	this->setY(y);
-	this->setPiece(piece);
+  this->setX(x);
+  this->setY(y);
+  this->setPiece(piece);
   this->promotion = promotion;
 }
 
@@ -23,19 +23,19 @@ Piece* Square::getPiece() {
 }
 
 void Square::setX(int x) {
-	this->x = x;
+  this->x = x;
 }
 
 int Square::getX() {
-	return this->x;
+  return this->x;
 }
 
 void Square::setY(int y) {
-	this->y = y;
+  this->y = y;
 }
 
 int Square::getY() {
-	return this->y;
+  return this->y;
 }
 
 bool Square::getPromotion() {

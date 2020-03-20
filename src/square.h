@@ -2,7 +2,7 @@
 #include"piece.h"
 
 class Square {
- public:
+public:
   Square();
   Square(int x, int y, Piece* piece, bool promotion);
   void setPiece(Piece* piece);
@@ -13,7 +13,7 @@ class Square {
   int getY();
   bool getPromotion();
 
- private:
+private:
   int x;
   int y;
   Piece* piece;
