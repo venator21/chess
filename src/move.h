@@ -7,8 +7,6 @@ class Move {
   Move(Player player, Square* start, Square* end);
   Square* getStart();
   Square* getEnd();
-  bool isCastlingMove();
-  void setCastlingMove(bool castlingMove);
 
  private:
   Player player;
@@ -16,5 +14,4 @@ class Move {
   Square* end;
   Piece* pieceMoved;
   Piece* pieceKilled;
-  bool castlingMove = false;
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-enum class PieceType { KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN};
+enum class PieceType { KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN };
 
 class Piece {
  public:

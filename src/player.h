@@ -17,8 +17,8 @@ class HumanPlayer : public Player {
 };
 
 class ComputerPlayer : public Player {
- private:
-  bool humanPlayer = false;
  public:
   ComputerPlayer(bool whiteSide);
+private:
+  bool humanPlayer = false;
 };

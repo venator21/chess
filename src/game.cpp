@@ -49,7 +49,7 @@ bool Game::makeMove(Move move, Player player) {
     return false;
   };
 
-  // initializing variables in case of casteling or en passant
+  // initializing variables in case of castling or en passant
   bool isCastling = board.isValidCastling(board, move.getStart(), move.getEnd());
   std::vector<int> enPassantTarget = this->EnPassantTarget();
 

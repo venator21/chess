@@ -15,11 +15,3 @@ Square* Move::getStart() {
 Square* Move::getEnd() {
   return this->end;
 }
-
-bool Move::isCastlingMove() {
-  return this->castlingMove == true;
-}
-
-void Move::setCastlingMove(bool castlingMove) {
-  this->castlingMove = castlingMove;
-};
