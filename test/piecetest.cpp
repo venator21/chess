@@ -5,59 +5,6 @@
 
 using namespace testing;
 
-//abstract class Piece generic implementation for testing purposes
-class PieceTest : public Piece {
-public:
-  PieceTest(bool white) : Piece{ white } {};
-  virtual PieceType getPieceType() { return this->pieceType; };
-  virtual bool canMove(Piece* sourcePiece, Piece* killedPiece,
-    int sourceX, int sourceY,
-    int killedX, int killedY) { return 1; };
- private:
-   PieceType pieceType = PieceType::PIECETEST;
-};
-
-class ChessPiece : public Test {
-public:
-  PieceTest piece = PieceTest(true);
-};
-
-TEST_F(ChessPiece, ReturnsColorInformation) {
-  ASSERT_TRUE(piece.isWhite());
-}
-
-TEST_F(ChessPiece, SetsItsColor) {
-  bool white = false;
-  piece.setWhite(white);
-  ASSERT_EQ(piece.isWhite(), white);
-}
-
-TEST_F(ChessPiece, ReturnsInformationAboutBeingKilled) {
-  ASSERT_FALSE(piece.isKilled());
-}
-
-TEST_F(ChessPiece, SetsKilledFlag) {
-  bool killed = true;
-  piece.setKilled(killed);
-  ASSERT_EQ(piece.isKilled(), killed);
-}
-
-TEST_F(ChessPiece, ReturnInformationIfPieceMovedAlready) {
-  ASSERT_TRUE(piece.isFirstMove());
-}
-
-TEST_F(ChessPiece, SetsFirstMoveFlag) {
-  piece.setFirstMoved();
-  ASSERT_FALSE(piece.isFirstMove());
-}
-
-TEST_F(ChessPiece, ComparesColorsOfTwoPieces) {
-  Piece* w_dummy = new Pawn(true);
-  Piece* b_dummy = new Pawn(false);
-  EXPECT_FALSE(piece.isPotentialKillSameColor(w_dummy, b_dummy));
-}
-
-
 class PieceCollection : public Test {
 public:
   King king = King(true);
@@ -69,15 +16,6 @@ public:
   Piece* w_dummy = new Pawn(true);
   Piece* b_dummy = new Pawn(false);
 };
-
-TEST_F(PieceCollection, ReturnsAppriopriatePieceTypeValue) {
-  EXPECT_EQ(king.getPieceType(), PieceType::KING);
-  EXPECT_EQ(queen.getPieceType(), PieceType::QUEEN);
-  EXPECT_EQ(bishop.getPieceType(), PieceType::BISHOP);
-  EXPECT_EQ(knight.getPieceType(), PieceType::KNIGHT);
-  EXPECT_EQ(rook.getPieceType(), PieceType::ROOK);
-  EXPECT_EQ(pawn.getPieceType(), PieceType::PAWN);
-}
 
 TEST_F(PieceCollection, KingMovesOneSquareEachDirection) {
   EXPECT_TRUE(king.canMove(NULL, NULL, 3, 3, 4, 4));
