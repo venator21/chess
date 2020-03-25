@@ -26,6 +26,16 @@ bool Piece::isFirstMove() {
   return this->firstMove;
 }
 
+bool Piece::isPotentialKillSameColor(Piece* sourcePiece, Piece* killedPiece) {
+  if (killedPiece != NULL) {
+    if (sourcePiece->isWhite() == killedPiece->isWhite())
+      return true;
+    else
+      return false;
+  }
+  return false;
+}
+
 
 King::King(bool white)
   : Piece{ white } {
@@ -36,11 +46,10 @@ PieceType King::getPieceType() {
 bool King::canMove(Piece* sourcePiece, Piece* killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
+
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
   if (x > 1)
@@ -65,11 +74,9 @@ PieceType Queen::getPieceType() {
 bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece,
                     int sourceX, int sourceY,
                     int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
+
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
   if ((x == 0 || y == 0) || (x == y))
@@ -88,15 +95,13 @@ PieceType Bishop::getPieceType() {
 bool Bishop::canMove(Piece* sourcePiece, Piece* killedPiece,
                      int sourceX, int sourceY,
                      int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
+
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
   if (x == y) return true;
-  return 1;
+  return false;
 }
 
 
@@ -109,11 +114,9 @@ PieceType Knight::getPieceType() {
 bool Knight::canMove(Piece* sourcePiece, Piece* killedPiece,
                      int sourceX, int sourceY,
                      int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
+
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
   if ((x == 1 && y == 2) || (x == 2 && y == 1))
@@ -132,11 +135,9 @@ PieceType Rook::getPieceType() {
 bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
+
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
   if (x == 0 || y == 0)
@@ -155,11 +156,8 @@ PieceType Pawn::getPieceType() {
 bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
-  if (killedPiece != NULL) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite()) {
-      return false;
-    }
-  }
+  if (isPotentialKillSameColor(sourcePiece, killedPiece))
+    return false;
 
   int* x;
   int* y;

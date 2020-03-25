@@ -1,6 +1,6 @@
 #pragma once
 
-enum class PieceType { KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN };
+enum class PieceType { KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN, PIECETEST };
 
 class Piece {
  public:
@@ -15,6 +15,7 @@ class Piece {
   virtual bool canMove(Piece* sourcePiece, Piece* killedPiece,
                        int sourceX, int sourceY,
                        int killedX, int killedY) = 0;
+  bool isPotentialKillSameColor(Piece* sourcePiece, Piece* killedPiece);
  private:
   bool killed = false;
   bool white = false;
