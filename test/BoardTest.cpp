@@ -32,7 +32,10 @@ TEST_F(ChessBoard, DenyDiagonalMovementWhenOtherPiecesInWay) {
 
 };
 
-
+TEST_F(ChessBoard, DistributesPiecesDuringInitialization) {
+  board.initializeBoard();
+  EXPECT_EQ()
+}
 TEST_F(ChessBoard, isValidCastling) { //TODO
   board.initializeGrid();
 };

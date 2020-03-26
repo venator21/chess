@@ -1,7 +1,4 @@
-#include<iostream>
 #include"game.h"
-
-using namespace std;
 
 Game::Game() {
   this->gameStatus = GameStatus::ACTIVE;
@@ -12,12 +9,12 @@ Game::Game() {
 
 void Game::initializeGame(Player player1, Player player2) {
   board.initializeBoard();
-  if (player1.isWhiteSide()) {
+
+  if (player1.isWhiteSide())
     this->currentTurn = player1;
-  }
-  else {
+  else
     this->currentTurn = player2;
-  }
+
   movesPlayed.clear();
 }
 
@@ -26,8 +23,7 @@ Player Game::getCurrentTurn() {
 };
 
 bool Game::playerMove(Player player, int startX,
-                      int startY, int endX, int endY)
-{
+                      int startY, int endX, int endY) {
   Square startSquare = board.getSquare(startX, startY);
   Square endSquare = board.getSquare(endX, endY);
   Move move = Move(player, startSquare, endSquare);
@@ -40,70 +36,60 @@ bool Game::makeMove(Move move, Player player) {
   std::shared_ptr<Piece> killedPiece = move.getEnd().getPiece();
 
   // is there a source piece to move? 
-  if (sourcePiece == nullptr) {
+  if (sourcePiece == nullptr)
     return false;
-  }
 
   // does source piece belong to the player?
-  if (sourcePiece->isWhite() != player.isWhiteSide()) {
+  if (sourcePiece->isWhite() != player.isWhiteSide())
     return false;
-  };
 
   // initializing variables in case of castling or en passant
   bool isCastling = board.isValidCastling(board, move.getStart(), move.getEnd());
   std::vector<int> enPassantTarget = this->EnPassantTarget();
 
-	// valid piece movement?
+	// valid piece movement? //TODO zmienic to, wyglada dziwnie
   if (isCastling) {}
   else if (this->isEnPassant() && 
            sourcePiece->getPieceType() == PieceType::PAWN &&
            move.getEnd().getX() == enPassantTarget[0] && 
            move.getEnd().getY() == enPassantTarget[1]) {}
-  else
-  {
+  else {
     if (!sourcePiece->canMove(sourcePiece, killedPiece,
                               move.getStart().getX(), move.getStart().getY(),
-                              move.getEnd().getX(), move.getEnd().getY())) {
+                              move.getEnd().getX(), move.getEnd().getY()))
       return false;
-    }
   }
 
   // valid board movement? 
-  if (sourcePiece->getPieceType() != PieceType::KNIGHT)
-  {
+  if (sourcePiece->getPieceType() != PieceType::KNIGHT) {
     if (!board.isMovementPathClear(board,
                                    move.getStart().getX(), move.getStart().getY(),
-                                   move.getEnd().getX(), move.getEnd().getY())) {
+                                   move.getEnd().getX(), move.getEnd().getY()))
       return false;
-    }
   }
 
   // kill? 
-  if (killedPiece != nullptr) {
+  if (killedPiece != nullptr)
     killedPiece->setKilled(true);
-  };
 
 
   // is casteling valid and being played?
-  if (board.isValidCastling(board, move.getStart(), move.getEnd()))
-  {
+  if (board.isValidCastling(board, move.getStart(), move.getEnd())) {
     //if true move rook to the proper position
-    if (move.getEnd().getX() == 6)
-    {
+    if (move.getEnd().getX() == 6) {
       board.getSquare(5, move.getEnd().getY()).setPiece(board.getSquare(7, move.getEnd().getY()).getPiece());
       board.getSquare(7, move.getEnd().getY()).setPiece(nullptr);
     }
-    else if (move.getEnd().getX() == 2)
-    {
+    else if (move.getEnd().getX() == 2) {
       board.getSquare(3, move.getEnd().getY()).setPiece(board.getSquare(0, move.getEnd().getY()).getPiece());
       board.getSquare(0, move.getEnd().getY()).setPiece(nullptr);
     }
   }
 
-  // is enPassant valid and being played?
+  // is enPassant valid and being played? //TODO slabo to wyglada
   if (this->isEnPassant() && sourcePiece->getPieceType() == PieceType::PAWN &&
-    move.getEnd().getX() == enPassantTarget[0] && move.getEnd().getY() == enPassantTarget[1])
-  {
+    move.getEnd().getX() == enPassantTarget[0] && move.getEnd().getY() == enPassantTarget[1]) {
+
     movesPlayed.back().getEnd().setPiece(nullptr);
   };
 
@@ -113,36 +99,24 @@ bool Game::makeMove(Move move, Player player) {
 
   // first movement of piece instance? 
   if (sourcePiece->isFirstMove() == true)
-  {
     sourcePiece->setFirstMoved();
-  };
 
   // promotion?
-  if (sourcePiece->getPieceType() == PieceType::PAWN && move.getEnd().getPromotion() == true)
-  {
+  if (sourcePiece->getPieceType() == PieceType::PAWN && move.getEnd().getPromotion() == true) {
     int promotionPiece = 0;
-    while (promotionPiece < 1 || promotionPiece > 4)
-    {
-      cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
-      cin >> promotionPiece;
+    while (promotionPiece < 1 || promotionPiece > 4) {
+      std::cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
+      std::cin >> promotionPiece;
     }
     //delete move.getEnd().getPiece();
     if (promotionPiece == 1)
-    {
       move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), QUEEN));
-    }
     else if (promotionPiece == 2)
-    {
       move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), BISHOP));
-    }
     else if (promotionPiece == 3)
-    {
       move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), KNIGHT));
-    }
     else if (promotionPiece == 4)
-    {
       move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), ROOK));
-    }
   }
 
   // store the move 
@@ -150,58 +124,50 @@ bool Game::makeMove(Move move, Player player) {
 
   // check win condition
   if (killedPiece != nullptr && killedPiece->getPieceType() == PieceType::KING) {
-    if (player.isWhiteSide()) {
+    if (player.isWhiteSide())
       this->gameStatus = GameStatus::WHITE_WINS;
-    }
-    else {
+    else
       this->gameStatus = GameStatus::BLACK_WINS;
-    }
   };
 
   // set the current turn to the other player 
-  if (this->currentTurn.isWhiteSide() == true) {
+  if (this->currentTurn.isWhiteSide() == true)
     this->currentTurn = player2;
-  }
-  else {
+  else
     this->currentTurn = player1;
-  }
 
   return true;
 }
 
 void Game::printBoard() {
-  using namespace std;
 
-  for (int i = 7; i >= 0; i--)
-  {
-    cout << " " << i + 1 << "|";
-    for (int j = 0; j < 8; j++)
-    {
+  for (int i = 7; i >= 0; i--) {
+    std::cout << " " << i + 1 << "|";
+    for (int j = 0; j < 8; j++) {
       std::shared_ptr<Piece> p = board.getSquare(j, i).getPiece();
       if (p == nullptr) {
-        cout << " " << "\1" << " ";
+        std::cout << " " << "\1" << " ";
         continue;
       }
-      switch (p->getPieceType())
-      {
-      case PieceType::KING: (p->isWhite() == true) ? cout << " K " : cout << " k ";
+      switch (p->getPieceType()) {
+      case PieceType::KING: (p->isWhite() == true) ? std::cout << " K " : std::cout << " k ";
         break;
-      case PieceType::QUEEN: (p->isWhite() == true) ? cout << " Q " : cout << " q ";
+      case PieceType::QUEEN: (p->isWhite() == true) ? std::cout << " Q " : std::cout << " q ";
         break;
-      case PieceType::BISHOP:(p->isWhite() == true) ? cout << " B " : cout << " b ";
+      case PieceType::BISHOP:(p->isWhite() == true) ? std::cout << " B " : std::cout << " b ";
         break;
-      case PieceType::KNIGHT:(p->isWhite() == true) ? cout << " N " : cout << " n ";
+      case PieceType::KNIGHT:(p->isWhite() == true) ? std::cout << " N " : std::cout << " n ";
         break;
-      case PieceType::ROOK: (p->isWhite() == true) ? cout << " R " : cout << " r ";
+      case PieceType::ROOK: (p->isWhite() == true) ? std::cout << " R " : std::cout << " r ";
         break;
-      case PieceType::PAWN: (p->isWhite() == true) ? cout << " P " : cout << " p ";
+      case PieceType::PAWN: (p->isWhite() == true) ? std::cout << " P " : std::cout << " p ";
         break;
       }
     }
-    cout << endl;
+    std::cout << std::endl;
   }
-  cout << "   _______________________" << endl;
-  cout << "    A  B  C  D  E  F  G  H " << endl;
+  std::cout << "   _______________________" << std::endl;
+  std::cout << "    A  B  C  D  E  F  G  H " << std::endl;
 }
 
 GameStatus Game::getGameStatus() {
@@ -224,9 +190,7 @@ bool Game::isEnPassant() {
   //based on vertical difference value
   if (!(yDiff == 2 && lastMove.getEnd().getPiece()->isWhite() == true ||
     yDiff == -2 && lastMove.getEnd().getPiece()->isWhite() == false))
-  {
     return false;
-  }
 
   return true;
 }

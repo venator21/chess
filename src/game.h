@@ -1,10 +1,11 @@
 #pragma once
+#include <list>
+#include <vector>
 #include<iostream>
 #include"board.h"
 #include"move.h"
 #include"piece.h"
-#include <list>
-#include <vector>
+
 
 enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 

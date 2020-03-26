@@ -1,8 +1,5 @@
-#include<iostream>
-#include<cstdlib>
 #include"piece.h"
 
-using namespace std;
 
 Piece::Piece(bool white) {
   this->setWhite(white);

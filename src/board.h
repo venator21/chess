@@ -24,8 +24,6 @@ class Board {
  private:
    Matrix<Square, 8, 8> grid;
    PieceFactory pieceFactory;
-   //std::array<std::array<Square, 8>, 8> grid;
-   //Square** grid = new Square* [8];
 };
 
 

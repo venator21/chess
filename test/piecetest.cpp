@@ -16,6 +16,11 @@ public:
   std::shared_ptr<Piece> b_dummy = std::shared_ptr<Piece>(new Pawn(false));
 };
 
+class PieceFactoryTest : public Test {
+ public:
+  PieceFactory pieceFactory;
+};
+
 TEST_F(PieceCollection, KingMovesOneSquareEachDirection) {
   EXPECT_TRUE(king.canMove(nullptr, nullptr, 3, 3, 4, 4));
   EXPECT_TRUE(king.canMove(nullptr, nullptr, 3, 3, 3, 4));

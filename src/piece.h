@@ -1,5 +1,6 @@
 #pragma once
-#include<iostream>
+#include<memory>
+#include<stdexcept>
 
 enum PieceType { KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN };
 
@@ -93,8 +94,7 @@ class Pawn : public Piece {
 class PieceFactory {
  public:
    std::shared_ptr<Piece> Create(bool white, PieceType pieceType) {
-    switch (pieceType)
-    {
+    switch (pieceType) {
     case PieceType::KING:
       return std::shared_ptr<Piece>(new King(white));
     case PieceType::QUEEN:
