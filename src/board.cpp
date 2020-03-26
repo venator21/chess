@@ -6,46 +6,55 @@ Board::Board() {
 }
 
 void Board::initializeBoard() {
-  for (int i = 0; i < 8; ++i) {
-    grid[i] = new Square[8];
-  }
+  this->initializeGrid();
+  this->initializePieces();
+}
 
-  *(*(grid + 0) + 0) = Square(0, 0, new Rook(true), true);
-  *(*(grid + 1) + 0) = Square(1, 0, new Knight(true), true);
-  *(*(grid + 2) + 0) = Square(2, 0, new Bishop(true), true);
-  *(*(grid + 3) + 0) = Square(3, 0, new Queen(true), true);
-  *(*(grid + 4) + 0) = Square(4, 0, new King(true), true);
-  *(*(grid + 5) + 0) = Square(5, 0, new Bishop(true), true);
-  *(*(grid + 6) + 0) = Square(6, 0, new Knight(true), true);
-  *(*(grid + 7) + 0) = Square(7, 0, new Rook(true), true);
-
-  *(*(grid + 0) + 7) = Square(0, 7, new Rook(false), true);
-  *(*(grid + 1) + 7) = Square(1, 7, new Knight(false), true);
-  *(*(grid + 2) + 7) = Square(2, 7, new Bishop(false), true);
-  *(*(grid + 3) + 7) = Square(3, 7, new Queen(false), true);
-  *(*(grid + 4) + 7) = Square(4, 7, new King(false), true);
-  *(*(grid + 5) + 7) = Square(5, 7, new Bishop(false), true);
-  *(*(grid + 6) + 7) = Square(6, 7, new Knight(false), true);
-  *(*(grid + 7) + 7) = Square(7, 7, new Rook(false), true);
-
- 
+void Board::initializeGrid() {
   for (int x = 0; x < 8; x++) {
-    *(*(grid + x) + 1) = Square(x, 1, new Pawn(true), false);
-  }
+    for (int y = 0; y < 8; y++) {
+      // check if square need true promotion flag
+      if (x < 1 || x > 6) {
+        grid[x][y] = Square(x, y, NULL, true);
+      }
+      else {
+        grid[x][y] = Square(x, y, NULL, false);
+      }
 
-  for (int x = 0; x < 8; x++) {
-    *(*(grid + x) + 6) = Square(x, 6, new Pawn(false), false);
-  }
-
-  for (int y = 2; y < 6; y++) {
-    for (int x = 0; x < 8; x++) {
-    *(*(grid + x) + y) = Square(x, y, NULL, false);
     }
   }
 }
 
-Square* Board::getSquare(int x, int y) {
-  return (*(grid + x) + y);
+void Board::initializePieces() {
+  grid[0][0].setPiece(new Rook(true));
+  grid[1][0].setPiece(new Knight(true));
+  grid[2][0].setPiece(new Bishop(true));
+  grid[3][0].setPiece(new Queen(true));
+  grid[4][0].setPiece(new King(true));
+  grid[5][0].setPiece(new Bishop(true));
+  grid[6][0].setPiece(new Knight(true));
+  grid[7][0].setPiece(new Rook(true));
+
+  grid[0][7].setPiece(new Rook(false));
+  grid[1][7].setPiece(new Knight(false));
+  grid[2][7].setPiece(new Bishop(false));
+  grid[3][7].setPiece(new Queen(false));
+  grid[4][7].setPiece(new King(false));
+  grid[5][7].setPiece(new Bishop(false));
+  grid[6][7].setPiece(new Knight(false));
+  grid[7][7].setPiece(new Rook(false));
+
+  for (int x = 0; x < 8; x++) {
+    grid[x][1].setPiece(new Pawn(true));
+  }
+
+  for (int x = 0; x < 8; x++) {
+    grid[x][6].setPiece(new Pawn(false));
+  }
+}
+
+Square Board::getSquare(int x, int y) {
+  return grid[x][y];
 }
 
 bool Board::isMovementPathClear(Board board,
@@ -71,7 +80,7 @@ bool Board::isMovementPathClear(Board board,
     }
     for (int i = *minRange + 1; i < *maxRange; i++)
     {
-      if (board.getSquare(killedX, i)->getPiece() != NULL)
+      if (board.getSquare(killedX, i).getPiece() != NULL)
         return false;
     }
   }
@@ -91,7 +100,7 @@ bool Board::isMovementPathClear(Board board,
     }
     for (int i = *minRange + 1; i < *maxRange; i++)
     {
-      if (board.getSquare(i, i)->getPiece() != NULL)
+      if (board.getSquare(i, killedY).getPiece() != NULL)
         return false;
     }
   }
@@ -104,7 +113,7 @@ bool Board::isMovementPathClear(Board board,
     {
       for (int i = sourceX + 1, j = sourceY + 1; i < killedX || j < killedY; i++, j++)
       {
-        if (board.getSquare(i, j)->getPiece() != NULL)
+        if (board.getSquare(i, j).getPiece() != NULL)
           return false;
       }
     }
@@ -113,7 +122,7 @@ bool Board::isMovementPathClear(Board board,
     {
       for (int i = sourceX + 1, j = sourceY - 1; i < killedX || j > killedY; i++, j--)
       {
-        if (board.getSquare(i, j)->getPiece() != NULL)
+        if (board.getSquare(i, j).getPiece() != NULL)
           return false;
       }
     }
@@ -122,7 +131,7 @@ bool Board::isMovementPathClear(Board board,
     {
       for (int i = sourceX - 1, j = sourceY - 1; i < killedX || j > killedY; i--, j--)
       {
-        if (board.getSquare(i, j)->getPiece() != NULL)
+        if (board.getSquare(i, j).getPiece() != NULL)
           return false;
       }
     }
@@ -131,7 +140,7 @@ bool Board::isMovementPathClear(Board board,
     {
       for (int i = sourceX - 1, j = sourceY + 1; i < killedX || j < killedY; i--, j++)
       {
-        if (board.getSquare(i, j)->getPiece() != NULL)
+        if (board.getSquare(i, j).getPiece() != NULL)
           return false;
       }
     }
@@ -139,16 +148,16 @@ bool Board::isMovementPathClear(Board board,
   return true;
 }
 
-bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare) {
-  int xDiff = startSquare->getX() - endSquare->getX();
-  int yDiff = startSquare->getY() - endSquare->getY();
+bool Board::isValidCastling(Board board, Square startSquare, Square endSquare) {
+  int xDiff = startSquare.getX() - endSquare.getX();
+  int yDiff = startSquare.getY() - endSquare.getY();
   int* rookX = new int;
-  int rookY = startSquare->getY();
+  int rookY = startSquare.getY();
 
-  if (startSquare->getPiece()->getPieceType() != PieceType::KING)
+  if (startSquare.getPiece()->getPieceType() != PieceType::KING)
     return false;
 
-  if (startSquare->getPiece()->isFirstMove() != true)
+  if (startSquare.getPiece()->isFirstMove() != true)
   {
     return false;
   }
@@ -175,7 +184,7 @@ bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare)
     *rookX = 7;
   }
 
-  if (board.getSquare(*rookX, rookY)->getPiece()->isFirstMove() == false)
+  if (board.getSquare(*rookX, rookY).getPiece()->isFirstMove() == false)
   {
     delete rookX;
     return false;
@@ -198,7 +207,7 @@ bool Board::isValidCastling(Board board, Square* startSquare, Square* endSquare)
   //check if path between king and rook is clear
   for (int i = *minRange + 1; i < *maxRange; i++)
   {
-    if (board.getSquare(i, rookY)->getPiece() != NULL)
+    if (board.getSquare(i, rookY).getPiece() != NULL)
     {
       delete rookX;
       delete minRange;

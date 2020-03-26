@@ -4,14 +4,14 @@
 
 class Move {
  public:
-  Move(Player player, Square* start, Square* end);
-  Square* getStart();
-  Square* getEnd();
+  Move(Player player, Square start, Square end);
+  Square getStart();
+  Square getEnd();
 
  private:
   Player player;
-  Square* start;
-  Square* end;
+  Square start;
+  Square end;
   Piece* pieceMoved;
   Piece* pieceKilled;
 };

@@ -41,7 +41,7 @@ TEST_F(PieceCollection, QueenMovesDiagonalAndLinear) {
   EXPECT_FALSE(queen.canMove(NULL, NULL, 3, 3, 2, 1));
 }
 
-TEST_F(PieceCollection, BishopMovesDiagonal) {
+TEST_F(PieceCollection, BishopMovesOnlyDiagonal) {
   EXPECT_TRUE(bishop.canMove(NULL, NULL, 3, 3, 1, 5));
   EXPECT_TRUE(bishop.canMove(NULL, NULL, 3, 3, 5, 5));
   EXPECT_TRUE(bishop.canMove(NULL, NULL, 3, 3, 5, 1));
@@ -53,7 +53,7 @@ TEST_F(PieceCollection, BishopMovesDiagonal) {
   EXPECT_FALSE(bishop.canMove(NULL, NULL, 3, 3, 3, 6));
 }
 
-TEST_F(PieceCollection, RookMovesLinear) {
+TEST_F(PieceCollection, RookMovesOnlyLinear) {
   EXPECT_TRUE(rook.canMove(NULL, NULL, 3, 3, 0, 3));
   EXPECT_TRUE(rook.canMove(NULL, NULL, 3, 3, 3, 0));
   EXPECT_TRUE(rook.canMove(NULL, NULL, 3, 3, 6, 3));
