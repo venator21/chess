@@ -12,6 +12,6 @@ class Move {
   Player player;
   Square start;
   Square end;
-  Piece* pieceMoved;
-  Piece* pieceKilled;
+  std::shared_ptr<Piece> pieceMoved;
+  std::shared_ptr<Piece> pieceKilled;
 };

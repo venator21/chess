@@ -26,8 +26,8 @@ bool Piece::isFirstMove() {
   return this->firstMove;
 }
 
-bool Piece::isPotentialKillSameColor(Piece* sourcePiece, Piece* killedPiece) {
-  if (killedPiece != NULL) {
+bool Piece::isPotentialKillSameColor(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece) {
+  if (killedPiece != nullptr) {
     if (sourcePiece->isWhite() == killedPiece->isWhite())
       return true;
     else
@@ -43,7 +43,7 @@ King::King(bool white)
 PieceType King::getPieceType() {
   return this->pieceType;
 }
-bool King::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool King::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
 
@@ -71,7 +71,7 @@ Queen::Queen(bool white)
 PieceType Queen::getPieceType() {
   return this->pieceType;
 }
-bool Queen::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Queen::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                     int sourceX, int sourceY,
                     int killedX, int killedY) {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
@@ -92,7 +92,7 @@ Bishop::Bishop(bool white)
 PieceType Bishop::getPieceType() {
   return this->pieceType;
 }
-bool Bishop::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Bishop::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                      int sourceX, int sourceY,
                      int killedX, int killedY) {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
@@ -111,7 +111,7 @@ Knight::Knight(bool white)
 PieceType Knight::getPieceType() {
   return this->pieceType;
 }
-bool Knight::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Knight::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                      int sourceX, int sourceY,
                      int killedX, int killedY) {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
@@ -132,7 +132,7 @@ Rook::Rook(bool white)
 PieceType Rook::getPieceType() {
   return this->pieceType;
 }
-bool Rook::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Rook::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
@@ -153,7 +153,7 @@ Pawn::Pawn(bool white)
 PieceType Pawn::getPieceType() {
   return this->pieceType;
 }
-bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
+bool Pawn::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
                    int sourceX, int sourceY,
                    int killedX, int killedY) {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
@@ -173,9 +173,9 @@ bool Pawn::canMove(Piece* sourcePiece, Piece* killedPiece,
     y = new int(sourceY - killedY);
   }
 
-  if ((killedPiece == NULL && *x == 0 && //can move vertical without kill
+  if ((killedPiece == nullptr && *x == 0 && //can move vertical without kill
       (*y == 1 || *y == 2 && this->isFirstMove() == true)) || //can move vertical 1 sq or 2 sq if first move
-      (killedPiece != NULL && abs(*x) == 1 && *y == 1)) { //can move 1 sq diagonal if going for a kill
+      (killedPiece != nullptr && abs(*x) == 1 && *y == 1)) { //can move 1 sq diagonal if going for a kill
     delete x;
     delete y;
     return true;

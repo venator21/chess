@@ -36,11 +36,11 @@ bool Game::playerMove(Player player, int startX,
 };
 
 bool Game::makeMove(Move move, Player player) {
-  Piece* sourcePiece = move.getStart().getPiece();
-  Piece* killedPiece = move.getEnd().getPiece();
+  std::shared_ptr<Piece> sourcePiece = move.getStart().getPiece();
+  std::shared_ptr<Piece> killedPiece = move.getEnd().getPiece();
 
   // is there a source piece to move? 
-  if (sourcePiece == NULL) {
+  if (sourcePiece == nullptr) {
     return false;
   }
 
@@ -79,7 +79,7 @@ bool Game::makeMove(Move move, Player player) {
   }
 
   // kill? 
-  if (killedPiece != NULL) {
+  if (killedPiece != nullptr) {
     killedPiece->setKilled(true);
   };
 
@@ -91,12 +91,12 @@ bool Game::makeMove(Move move, Player player) {
     if (move.getEnd().getX() == 6)
     {
       board.getSquare(5, move.getEnd().getY()).setPiece(board.getSquare(7, move.getEnd().getY()).getPiece());
-      board.getSquare(7, move.getEnd().getY()).setPiece(NULL);
+      board.getSquare(7, move.getEnd().getY()).setPiece(nullptr);
     }
     else if (move.getEnd().getX() == 2)
     {
       board.getSquare(3, move.getEnd().getY()).setPiece(board.getSquare(0, move.getEnd().getY()).getPiece());
-      board.getSquare(0, move.getEnd().getY()).setPiece(NULL);
+      board.getSquare(0, move.getEnd().getY()).setPiece(nullptr);
     }
   }
 
@@ -104,12 +104,12 @@ bool Game::makeMove(Move move, Player player) {
   if (this->isEnPassant() && sourcePiece->getPieceType() == PieceType::PAWN &&
     move.getEnd().getX() == enPassantTarget[0] && move.getEnd().getY() == enPassantTarget[1])
   {
-    movesPlayed.back().getEnd().setPiece(NULL);
+    movesPlayed.back().getEnd().setPiece(nullptr);
   };
 
   // move source piece from the start square to end square 
   move.getEnd().setPiece(move.getStart().getPiece());
-  move.getStart().setPiece(NULL);
+  move.getStart().setPiece(nullptr);
 
   // first movement of piece instance? 
   if (sourcePiece->isFirstMove() == true)
@@ -126,22 +126,22 @@ bool Game::makeMove(Move move, Player player) {
       cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
       cin >> promotionPiece;
     }
-    delete move.getEnd().getPiece();
+    //delete move.getEnd().getPiece();
     if (promotionPiece == 1)
     {
-      move.getEnd().setPiece(new Queen(currentTurn.isWhiteSide()));
+      move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), QUEEN));
     }
     else if (promotionPiece == 2)
     {
-      move.getEnd().setPiece(new Bishop(currentTurn.isWhiteSide()));
+      move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), BISHOP));
     }
     else if (promotionPiece == 3)
     {
-      move.getEnd().setPiece(new Knight(currentTurn.isWhiteSide()));
+      move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), KNIGHT));
     }
     else if (promotionPiece == 4)
     {
-      move.getEnd().setPiece(new Rook(currentTurn.isWhiteSide()));
+      move.getEnd().setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), ROOK));
     }
   }
 
@@ -149,7 +149,7 @@ bool Game::makeMove(Move move, Player player) {
   movesPlayed.push_back(move);
 
   // check win condition
-  if (killedPiece != NULL && killedPiece->getPieceType() == PieceType::KING) {
+  if (killedPiece != nullptr && killedPiece->getPieceType() == PieceType::KING) {
     if (player.isWhiteSide()) {
       this->gameStatus = GameStatus::WHITE_WINS;
     }
@@ -177,8 +177,8 @@ void Game::printBoard() {
     cout << " " << i + 1 << "|";
     for (int j = 0; j < 8; j++)
     {
-      Piece* p = board.getSquare(j, i).getPiece();
-      if (p == NULL) {
+      std::shared_ptr<Piece> p = board.getSquare(j, i).getPiece();
+      if (p == nullptr) {
         cout << " " << "\1" << " ";
         continue;
       }

@@ -27,4 +27,5 @@ class Game {
   Player currentTurn;
   GameStatus gameStatus;
   std::list<Move> movesPlayed;
+  PieceFactory pieceFactory;
 };

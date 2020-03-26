@@ -7,18 +7,18 @@ Square::Square() {
   this->promotion = promotion;
 }
 
-Square::Square(int x, int y, Piece* piece, bool promotion) {
+Square::Square(int x, int y, std::shared_ptr<Piece> piece, bool promotion) {
   this->setX(x);
   this->setY(y);
   this->setPiece(piece);
   this->promotion = promotion;
 }
 
-void Square::setPiece(Piece* piece) {
+void Square::setPiece(std::shared_ptr<Piece> piece) {
   this->piece = piece;
 }
 
-Piece* Square::getPiece() {
+std::shared_ptr<Piece> Square::getPiece() {
   return this->piece;
 }
 

@@ -13,43 +13,42 @@ void Board::initializeBoard() {
 void Board::initializeGrid() {
   for (int x = 0; x < 8; x++) {
     for (int y = 0; y < 8; y++) {
-      // check if square need true promotion flag
+      // check if square need promotion flag = true
       if (x < 1 || x > 6) {
-        grid[x][y] = Square(x, y, NULL, true);
+        grid[x][y] = Square(x, y, nullptr, true);
       }
       else {
-        grid[x][y] = Square(x, y, NULL, false);
+        grid[x][y] = Square(x, y, nullptr, false);
       }
-
     }
   }
 }
 
 void Board::initializePieces() {
-  grid[0][0].setPiece(new Rook(true));
-  grid[1][0].setPiece(new Knight(true));
-  grid[2][0].setPiece(new Bishop(true));
-  grid[3][0].setPiece(new Queen(true));
-  grid[4][0].setPiece(new King(true));
-  grid[5][0].setPiece(new Bishop(true));
-  grid[6][0].setPiece(new Knight(true));
-  grid[7][0].setPiece(new Rook(true));
+  grid[0][0].setPiece(pieceFactory.Create(WHITE, ROOK));
+  grid[1][0].setPiece(pieceFactory.Create(WHITE, KNIGHT));
+  grid[2][0].setPiece(pieceFactory.Create(WHITE, BISHOP));
+  grid[3][0].setPiece(pieceFactory.Create(WHITE, QUEEN));
+  grid[4][0].setPiece(pieceFactory.Create(WHITE, KING));
+  grid[5][0].setPiece(pieceFactory.Create(WHITE, BISHOP));
+  grid[6][0].setPiece(pieceFactory.Create(WHITE, KNIGHT));
+  grid[7][0].setPiece(pieceFactory.Create(WHITE, ROOK));
 
-  grid[0][7].setPiece(new Rook(false));
-  grid[1][7].setPiece(new Knight(false));
-  grid[2][7].setPiece(new Bishop(false));
-  grid[3][7].setPiece(new Queen(false));
-  grid[4][7].setPiece(new King(false));
-  grid[5][7].setPiece(new Bishop(false));
-  grid[6][7].setPiece(new Knight(false));
-  grid[7][7].setPiece(new Rook(false));
+  grid[0][7].setPiece(pieceFactory.Create(BLACK, ROOK));
+  grid[1][7].setPiece(pieceFactory.Create(BLACK, KNIGHT));
+  grid[2][7].setPiece(pieceFactory.Create(BLACK, BISHOP));
+  grid[3][7].setPiece(pieceFactory.Create(BLACK, QUEEN));
+  grid[4][7].setPiece(pieceFactory.Create(BLACK, KING));
+  grid[5][7].setPiece(pieceFactory.Create(BLACK, BISHOP));
+  grid[6][7].setPiece(pieceFactory.Create(BLACK, KNIGHT));
+  grid[7][7].setPiece(pieceFactory.Create(BLACK, ROOK));
 
   for (int x = 0; x < 8; x++) {
-    grid[x][1].setPiece(new Pawn(true));
+    grid[x][1].setPiece(pieceFactory.Create(WHITE, PAWN));
   }
 
   for (int x = 0; x < 8; x++) {
-    grid[x][6].setPiece(new Pawn(false));
+    grid[x][6].setPiece(pieceFactory.Create(BLACK, PAWN));
   }
 }
 

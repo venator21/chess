@@ -3,6 +3,8 @@
 #include"square.h"
 #include"piece.h"
 
+enum Color {BLACK = 0, WHITE = 1};
+
 template <class T, size_t ROW, size_t COL >
 using Matrix = std::array<std::array<T, COL>, ROW>;
 
@@ -21,6 +23,7 @@ class Board {
 
  private:
    Matrix<Square, 8, 8> grid;
+   PieceFactory pieceFactory;
    //std::array<std::array<Square, 8>, 8> grid;
    //Square** grid = new Square* [8];
 };
