@@ -34,8 +34,73 @@ TEST_F(ChessBoard, DenyDiagonalMovementWhenOtherPiecesInWay) {
 
 TEST_F(ChessBoard, DistributesPiecesDuringInitialization) {
   board.initializeBoard();
-  EXPECT_EQ()
+  EXPECT_EQ(board.getSquare(5, 6).getPiece()->getPieceType(), PieceType::PAWN);
+  EXPECT_EQ(board.getSquare(4, 7).getPiece()->getPieceType(), PieceType::KING);
+
+  EXPECT_EQ(board.getSquare(0, 0).getPiece()->getPieceType(), PieceType::ROOK);
+  EXPECT_EQ(board.getSquare(3, 3).getPiece(), nullptr);
 }
-TEST_F(ChessBoard, isValidCastling) { //TODO
+
+
+TEST_F(ChessBoard, CastelingValidWhiteKing) {
   board.initializeGrid();
-};
+  board.grid[4][0].setPiece(board.pieceFactory.Create(WHITE, KING));
+  board.grid[7][0].setPiece(board.pieceFactory.Create(WHITE, ROOK));
+  board.grid[0][0].setPiece(board.pieceFactory.Create(WHITE, ROOK));
+
+  EXPECT_TRUE(board.isValidCastling(board, board.getSquare(4, 0), board.getSquare(7, 0)));
+  EXPECT_TRUE(board.isValidCastling(board, board.getSquare(4, 0), board.getSquare(0, 0)));
+}
+
+TEST_F(ChessBoard, CastelingValidBlackKing) {
+  board.initializeGrid();
+  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+
+  EXPECT_TRUE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(7, 7)));
+  EXPECT_TRUE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(0, 7)));
+}
+
+TEST_F(ChessBoard, DenyCastelingWhenPathBlocked) {
+  board.initializeGrid();
+  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[6][7].setPiece(board.pieceFactory.Create(BLACK, BISHOP));
+  board.grid[1][7].setPiece(board.pieceFactory.Create(BLACK, BISHOP));
+
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(7, 7)));
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(0, 7)));
+}
+
+TEST_F(ChessBoard, DenyCastelingWhenNoRook) {
+  board.initializeGrid();
+  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(7, 7)));
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(0, 7)));
+}
+
+TEST_F(ChessBoard, DenyCastelingWhenKingMovedAlready) {
+  board.initializeGrid();
+  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].getPiece()->setFirstMoved();
+
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(7, 7)));
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(0, 7)));
+}
+
+TEST_F(ChessBoard, DenyCastelingWhenRookMovedAlready) {
+  board.initializeGrid();
+  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[7][7].getPiece()->setFirstMoved();
+  board.grid[0][7].getPiece()->setFirstMoved();
+
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(7, 7)));
+  EXPECT_FALSE(board.isValidCastling(board, board.getSquare(4, 7), board.getSquare(0, 7)));
+}

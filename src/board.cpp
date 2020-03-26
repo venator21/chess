@@ -58,20 +58,20 @@ bool Board::isMovementPathClear(Board board,
   int killedX, int killedY) {
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
-  int* maxRange;
-  int* minRange; //TODO zrobic zaiast ptr jakies referencje
+  int maxRange;
+  int minRange;
 
   //vertical movement
   if (x == 0) {
     if (sourceY > killedY) {
-      maxRange = &sourceY;
-      minRange = &killedY;
+      maxRange = sourceY;
+      minRange = killedY;
     }
     else {
-      maxRange = &killedY;
-      minRange = &sourceY;
+      maxRange = killedY;
+      minRange = sourceY;
     }
-    for (int i = *minRange + 1; i < *maxRange; i++) {
+    for (int i = minRange + 1; i < maxRange; i++) {
       if (board.getSquare(killedX, i).getPiece() != nullptr)
         return false;
     }
@@ -80,14 +80,14 @@ bool Board::isMovementPathClear(Board board,
   //horizontal movement
   if (y == 0) {
     if (sourceX > killedX) {
-      maxRange = &sourceX;
-      minRange = &killedX;
+      maxRange = sourceX;
+      minRange = killedX;
     }
     else {
-      maxRange = &killedX;
-      minRange = &sourceX;
+      maxRange = killedX;
+      minRange = sourceX;
     }
-    for (int i = *minRange + 1; i < *maxRange; i++) {
+    for (int i = minRange + 1; i < maxRange; i++) {
       if (board.getSquare(i, killedY).getPiece() != nullptr)
         return false;
     }
@@ -130,10 +130,13 @@ bool Board::isMovementPathClear(Board board,
 bool Board::isValidCastling(Board board, Square startSquare, Square endSquare) {
   int xDiff = startSquare.getX() - endSquare.getX();
   int yDiff = startSquare.getY() - endSquare.getY();
-  int* rookX = new int;
+  int rookX;
   int rookY = startSquare.getY();
 
   if (startSquare.getPiece()->getPieceType() != PieceType::KING)
+    return false;
+
+  if (endSquare.getPiece() == nullptr)
     return false;
 
   if (startSquare.getPiece()->isFirstMove() != true)
@@ -144,45 +147,35 @@ bool Board::isValidCastling(Board board, Square startSquare, Square endSquare) {
     return false;
 
   //while castling king destination can only result in two specific squares
-  if (!(xDiff == 2 || xDiff == -2)) 
+  if (!(xDiff == 4 || xDiff == -3)) 
     return false;
 
   // X-wise - check which rook is participating, Y already derived from King position
-  if (xDiff == 2)
-    *rookX = 0;
-  else if (xDiff == -2)
-    *rookX = 7;
+  if (xDiff == 4)
+    rookX = 0;
+  else if (xDiff == -3)
+    rookX = 7;
 
-  if (board.getSquare(*rookX, rookY).getPiece()->isFirstMove() == false) {
-    delete rookX;
+  if (board.getSquare(rookX, rookY).getPiece()->isFirstMove() == false)
     return false;
-  }
 
-  int* minRange = new int;
-  int* maxRange = new int;
+  int minRange;
+  int maxRange;
 
-  if (*rookX == 0) {
-    *minRange = 0;
-    *maxRange = 4;
+  if (rookX == 0) {
+    minRange = 0;
+    maxRange = 4;
   }
-  else if (*rookX == 7) {
-    *minRange = 4;
-    *maxRange = 7;
+  else if (rookX == 7) {
+    minRange = 4;
+    maxRange = 7;
   }
 
   //check if path between king and rook is clear
-  for (int i = *minRange + 1; i < *maxRange; i++) {
-    if (board.getSquare(i, rookY).getPiece() != nullptr) {
-      delete rookX;
-      delete minRange;
-      delete maxRange;
+  for (int i = minRange + 1; i < maxRange; i++) {
+    if (board.getSquare(i, rookY).getPiece() != nullptr)
       return false;
-    }
   }
-
-  delete rookX;
-  delete minRange;
-  delete maxRange;
 
   return true;
 }

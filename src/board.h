@@ -21,9 +21,8 @@ class Board {
                            int killedX, int killedY);
   bool isValidCastling(Board board, Square startSquare, Square endSquare);
 
- private:
-   Matrix<Square, 8, 8> grid;
-   PieceFactory pieceFactory;
+  Matrix<Square, 8, 8> grid;
+  PieceFactory pieceFactory;
 };
 
 
