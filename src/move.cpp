@@ -1,17 +1,39 @@
 #include"move.h"
 
-Move::Move(Player player, Square start, Square end) {
+Move::Move(Player player, int sourceX, int sourceY,
+                          int destinationX, int destinationY,
+                          std::shared_ptr<Piece> pieceMoved,
+                          std::shared_ptr<Piece> pieceKilled) {
   this->player = player;
-  this->start = start;
-  this->end = end;
-  this->pieceMoved = start.getPiece();
-  this->pieceKilled = end.getPiece();
+  this->sourceX = sourceX;
+  this->sourceY = sourceY;
+  this->destinationX = destinationX;
+  this->destinationY = destinationY;
+  this->pieceMoved = pieceMoved;
+  this->pieceKilled = pieceKilled;
 }
 
-Square Move::getStart() {
-  return this->start;
+
+int  Move::getMovedPieceX() {
+  return this->sourceX;
 }
 
-Square Move::getEnd() {
-  return this->end;
+int  Move::getMovedPieceY() {
+  return this->sourceY;
+}
+
+int  Move::getKilledPieceX() {
+  return this->destinationX;
+}
+
+int  Move::getKilledPieceY() {
+  return this->destinationY;
+}
+
+std::shared_ptr<Piece>  Move::getMovedPiece() {
+  return this->pieceMoved;
+}
+
+std::shared_ptr<Piece>  Move::getKilledPiece() {
+  return this->pieceKilled;
 }

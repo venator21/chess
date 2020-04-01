@@ -4,14 +4,14 @@ Square::Square() {
   this->setX(x);
   this->setY(y);
   this->setPiece(piece);
-  this->promotion = promotion;
+  this->promotionSquare = promotionSquare;
 }
 
-Square::Square(int x, int y, std::shared_ptr<Piece> piece, bool promotion) {
+Square::Square(int x, int y, std::shared_ptr<Piece> piece, bool promotionSquare) {
   this->setX(x);
   this->setY(y);
   this->setPiece(piece);
-  this->promotion = promotion;
+  this->promotionSquare = promotionSquare;
 }
 
 void Square::setPiece(std::shared_ptr<Piece> piece) {
@@ -38,6 +38,6 @@ int Square::getY() {
   return this->y;
 }
 
-bool Square::getPromotion() {
-  return this->promotion;
+bool Square::isPromotionSquare() {
+  return this->promotionSquare;
 }

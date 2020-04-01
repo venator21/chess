@@ -1,32 +1,22 @@
 #pragma once
-#include <list>
-#include <vector>
-#include<iostream>
 #include"board.h"
-#include"move.h"
-#include"piece.h"
-
 
 enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 
 class Game {
  public:
   Game();
-  void initializeGame(Player player1, Player player2);
+  bool playGameTurn(std::string inputMove);
   Player getCurrentTurn();
-  bool playerMove(Player player, int startX, int startY, int endX, int endY);
-  bool makeMove(Move move, Player player);
-  void printBoard();
   GameStatus getGameStatus();
-  bool isEnPassant();
-  std::vector<int> EnPassantTarget();
+  std::vector<int> transformMoveInputToCoord(std::string string);
+  int charTransformation(char s);
+  void printGame();
 
  private:
-  Player player1;
-  Player player2;
   Board board;
+  Player w_player;
+  Player b_player;
   Player currentTurn;
   GameStatus gameStatus;
-  std::list<Move> movesPlayed;
-  PieceFactory pieceFactory;
 };

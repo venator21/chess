@@ -96,17 +96,17 @@ class PieceFactory {
    std::shared_ptr<Piece> Create(bool white, PieceType pieceType) {
     switch (pieceType) {
     case PieceType::KING:
-      return std::shared_ptr<Piece>(new King(white));
+      return std::shared_ptr<Piece>(std::make_unique<King>(white));
     case PieceType::QUEEN:
-      return std::shared_ptr<Piece>(new Queen(white));
+      return std::shared_ptr<Piece>(std::make_unique<Queen>(white));
     case PieceType::BISHOP:
-      return std::shared_ptr<Piece>(new Bishop(white));
+      return std::shared_ptr<Piece>(std::make_unique<Bishop>(white));
     case PieceType::KNIGHT:
-      return std::shared_ptr<Piece>(new Knight(white));
+      return std::shared_ptr<Piece>(std::make_unique<Knight>(white));
     case PieceType::ROOK:
-      return std::shared_ptr<Piece>(new Rook(white));
+      return std::shared_ptr<Piece>(std::make_unique<Rook>(white));
     case PieceType::PAWN:
-      return std::shared_ptr<Piece>(new Pawn(white));
+      return std::shared_ptr<Piece>(std::make_unique<Pawn>(white));
     default:
       throw std::invalid_argument("Wrong piece type received.");
     }

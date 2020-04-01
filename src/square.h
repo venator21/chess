@@ -11,11 +11,11 @@ public:
   int getX();
   void setY(int y);
   int getY();
-  bool getPromotion();
+  bool isPromotionSquare();
 
 private:
   int x;
   int y;
   std::shared_ptr<Piece> piece;
-  bool promotion;
+  bool promotionSquare;
 };
