@@ -13,7 +13,6 @@ Move::Move(Player player, int sourceX, int sourceY,
   this->pieceKilled = pieceKilled;
 }
 
-
 int  Move::getMovedPieceX() {
   return this->sourceX;
 }

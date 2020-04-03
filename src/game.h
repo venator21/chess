@@ -7,7 +7,7 @@ class Game {
  public:
   Game();
   bool playGameTurn(std::string inputMove);
-  Player getCurrentTurn();
+  Player getcurrentPlayer();
   GameStatus getGameStatus();
   std::vector<int> transformMoveInputToCoord(std::string string);
   int charTransformation(char s);
@@ -17,6 +17,6 @@ class Game {
   Board board;
   Player w_player;
   Player b_player;
-  Player currentTurn;
+  Player currentPlayer;
   GameStatus gameStatus;
 };

@@ -16,8 +16,6 @@ class Move {
   std::shared_ptr<Piece> getMovedPiece();
   std::shared_ptr<Piece> getKilledPiece();
 
-
-
  private:
   Player player;
   int sourceX;

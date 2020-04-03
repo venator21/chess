@@ -156,30 +156,24 @@ bool Pawn::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> ki
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
-  int* x;
-  int* y;
+  int x;
+  int y;
 
   if (sourcePiece->isWhite())
   {
-    x = new int(killedX - sourceX);
-    y = new int(killedY - sourceY);
+    x = killedX - sourceX;
+    y = killedY - sourceY;
   }
   else
   {
-    x = new int(sourceX - killedX);
-    y = new int(sourceY - killedY);
+    x = sourceX - killedX;
+    y = sourceY - killedY;
   }
 
-  if ((killedPiece == nullptr && *x == 0 && //can move vertical without kill
-      (*y == 1 || *y == 2 && this->isFirstMove() == true)) || //can move vertical 1 sq or 2 sq if first move
-      (killedPiece != nullptr && abs(*x) == 1 && *y == 1)) { //can move 1 sq diagonal if going for a kill
-    delete x;
-    delete y;
+  if ((killedPiece == nullptr && x == 0 && // can move vertical without kill
+      (y == 1 || y == 2 && this->isFirstMove() == true)) || // can move vertical 1 sq or 2 sq if first move
+      (killedPiece != nullptr && abs(x) == 1 && y == 1)) // can move 1 sq diagonal if going for a kill
     return true;
-  }
-  else {
-    delete x;
-    delete y;
+  else
     return false;
-  }
 }

@@ -18,6 +18,7 @@ class Piece {
                        int sourceX, int sourceY,
                        int killedX, int killedY) = 0;
   bool isPotentialKillSameColor(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece);
+
  private:
   bool killed = false;
   bool white = false;

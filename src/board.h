@@ -22,10 +22,10 @@ class Board {
   void initializeGrid();
   void initializePieces();
   Square getSquare(int x, int y);
-  bool makeMove(Player currnetTurn, int sourceX, int sourceY, int killedX, int killedY);
+  bool makeMove(Player currentPlayer, int sourceX, int sourceY, int killedX, int killedY);
   void sourcePieceMoved(int sourceX, int sourceY, int destinationX, int destinationY);
   bool isMovementPathClear(int sourceX, int sourceY, int killedX, int killedY);
-  void executePromotion(Player currnetTurn, int destinationX, int destinationY);
+  void executePromotion(Player currentPlayer, int destinationX, int destinationY);
   bool isValidCastling(int sourceX, int sourceY, int destinationX, int destinationY);
   void executeCastlingMove(int sourceX, int sourceY, int destinationX, int destinationY);
   bool isEnPassant(int sourceX, int sourceY, int destinationX, int destinationY);

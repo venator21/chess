@@ -8,7 +8,7 @@ int main() {
   game.printGame();
   while (game.getGameStatus() == GameStatus::ACTIVE) {
 
-    std::string turn = (game.getCurrentTurn().isWhiteSide() ? "WHITE's" : "BLACK's");
+    std::string turn = (game.getcurrentPlayer().isWhiteSide() ? "WHITE's" : "BLACK's");
     std::cout << turn << " turn: ";
     std::cin >> move;
 

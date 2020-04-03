@@ -54,7 +54,7 @@ Square Board::getSquare(int x, int y) {
   return grid[x][y];
 }
 
-bool Board::makeMove(Player currentTurn, int sourceX, int sourceY,
+bool Board::makeMove(Player currentPlayer, int sourceX, int sourceY,
                                          int destinationX, int destinationY) {
   std::shared_ptr<Piece> sourcePiece = getSquare(sourceX, sourceY).getPiece();
   std::shared_ptr<Piece> killedPiece = getSquare(destinationX, destinationY).getPiece();
@@ -82,23 +82,14 @@ bool Board::makeMove(Player currentTurn, int sourceX, int sourceY,
 
   // promotion?
   if (sourcePiece->getPieceType() == PieceType::PAWN && getSquare(destinationX, destinationY).isPromotionSquare() == true)
-    executePromotion(currentTurn, destinationX, destinationY);
+    executePromotion(currentPlayer, destinationX, destinationY);
 
   // kill? 
   if (killedPiece != nullptr)
     killedPiece->setKilled(true);
 
   sourcePieceMoved(sourceX, sourceY, destinationX, destinationY);
-  movesPlayed.push_back(Move(currentTurn, sourceX, sourceY, destinationX, destinationY, sourcePiece, killedPiece));
-
-
-  //  // check win condition
-  //if (killedPiece != nullptr && killedPiece->getPieceType() == PieceType::KING) {
-  //  if (player.isWhiteSide())
-  //    this->gameStatus = GameStatus::WHITE_WINS;
-  //  else
-  //    this->gameStatus = GameStatus::BLACK_WINS;
-  //};
+  movesPlayed.push_back(Move(currentPlayer, sourceX, sourceY, destinationX, destinationY, sourcePiece, killedPiece));
 
   return true;
 }
@@ -106,7 +97,6 @@ bool Board::makeMove(Player currentTurn, int sourceX, int sourceY,
 
 void Board::sourcePieceMoved(int sourceX, int sourceY,
                       int destinationX, int destinationY) {
-
   grid[destinationX][destinationY].setPiece(getSquare(sourceX, sourceY).getPiece());
   grid[sourceX][sourceY].setPiece(nullptr);
 }
@@ -186,7 +176,7 @@ bool Board::isMovementPathClear(int sourceX, int sourceY,
   return true;
 }
 
-void Board::executePromotion(Player currentTurn, int destinationX, int destinationY) {
+void Board::executePromotion(Player currentPlayer, int destinationX, int destinationY) {
   int promotionPiece = 0;
   while (promotionPiece < 1 || promotionPiece > 4) {
     std::cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
@@ -194,13 +184,13 @@ void Board::executePromotion(Player currentTurn, int destinationX, int destinati
   }
   switch (promotionPiece) {
   case 1:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), QUEEN));
+    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), QUEEN));
   case 2:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), BISHOP));
+    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), BISHOP));
   case 3:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), KNIGHT));
+    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), KNIGHT));
   case 4:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentTurn.isWhiteSide(), ROOK));
+    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), ROOK));
   default:
     throw std::string("Wrong promotion input!");
   }
@@ -221,11 +211,11 @@ bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int dest
   if (getSquare(sourceX, sourceY).getPiece()->isFirstMove() != true)
     return false;
 
-  //while castling king movement is horizontal
+  // while castling king movement is horizontal
   if (yDiff != 0) 
     return false;
 
-  //while castling king destination can only result in two specific squares
+  // while castling king destination can only result in two specific squares
   if (!(xDiff == 2 || xDiff == -2)) 
     return false;
 
@@ -253,17 +243,16 @@ bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int dest
     maxRange = 7;
   }
 
-  //check if path between king and rook is clear
+  // check if path between king and rook is clear
   for (int i = minRange + 1; i < maxRange; i++) {
     if (getSquare(i, rookY).getPiece() != nullptr)
       return false;
   }
-
   return true;
 }
 
 void Board::executeCastlingMove(int sourceX, int sourceY, int destinationX, int destinationY){
-  //if true move rook to the proper position
+  // if true move rook to the proper position
   if (destinationX == 6) {
     grid[5][destinationY].setPiece(getSquare(7, destinationY).getPiece());
     grid[7][destinationY].setPiece(nullptr);
@@ -276,7 +265,7 @@ void Board::executeCastlingMove(int sourceX, int sourceY, int destinationX, int 
 
 bool Board::isEnPassant(int sourceX, int sourceY,
   int destinationX, int destinationY) {
-  //ignore if it is first move of the game
+  // ignore if it is first move of the game
   if (movesPlayed.size() == 0)
     return false;
 
@@ -287,8 +276,8 @@ bool Board::isEnPassant(int sourceX, int sourceY,
 
   int yDiff = lastMove.getKilledPieceY() - lastMove.getMovedPieceY();
 
-  //since pawn can only move forward, can determine if it is white or black
-  //based on vertical difference value
+  // since pawn can only move forward, can determine if it is white or black
+  // based on vertical difference value
   if (!(yDiff == 2 && lastMove.getMovedPiece()->isWhite() == true ||
     yDiff == -2 && lastMove.getMovedPiece()->isWhite() == false))
     return false;
@@ -317,7 +306,7 @@ std::vector<int> Board::EnPassantTarget() {
   Move lastMove = this->movesPlayed.back();
   int yDiff = lastMove.getKilledPieceY() - lastMove.getMovedPieceY();
 
-  //determine valid destination of en passant based on vertical movement of previous move 
+  // determine valid destination of en passant based on vertical movement of previous move 
   if (yDiff == 2) {
     std::vector<int> target = { lastMove.getKilledPieceX(), lastMove.getKilledPieceY() - 1 };
     return target;
@@ -344,7 +333,6 @@ bool Board::isKingKilled() {
     return false;
 }
 
-
 void Board::printBoard() {
 
   for (int i = 7; i >= 0; i--) {
@@ -352,7 +340,7 @@ void Board::printBoard() {
     for (int j = 0; j < 8; j++) {
       std::shared_ptr<Piece> p = getSquare(j, i).getPiece();
       if (p == nullptr) {
-        std::cout << " " << "\1" << " ";
+        std::cout << " " << "." << " ";
         continue;
       }
       switch (p->getPieceType()) {

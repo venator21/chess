@@ -30,7 +30,6 @@ TEST_F(ChessBoard, AllowMovementWhenNoPiececInWay) {
   EXPECT_TRUE(board.isMovementPathClear(3, 1, 3, 5));
 };
 
-
 TEST_F(ChessBoard, DenyHorizontalMovementWhenOtherPiecesInWay) {
   board.initializeBoard();
   EXPECT_FALSE(board.isMovementPathClear(3, 0, 7, 0));
@@ -189,10 +188,3 @@ TEST_F(ChessEnPassant, ExecutesEnPassantMove) {
   EXPECT_EQ(board.getSquare(2, 4).getPiece(), nullptr);
   EXPECT_EQ(board.getSquare(2, 5).getPiece()->getPieceType(), PAWN);
 }
-
-////promotion
-//TEST_F(ChessBoard, promotionincanMove) {
-//  board.initializeBoard();
-//
-//}
-
