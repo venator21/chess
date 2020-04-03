@@ -1,5 +1,10 @@
 # chess
-c++ chess game mechanics
+Chess game mechanics with c++ using OOP principles. Can be already played on console however some higher level enforcements are to be implemented (e.g. check mate).
+
+Console board
+
+![Console board](https://github.com/venator21/chess/blob/master/board.jpg)
+
 
 UML class diagram
-![alt text](https://github.com/venator21/chess/blob/master/UML.jpeg)
+![UML class diagram](https://github.com/venator21/chess/blob/master/UML_diagram.jpeg)
