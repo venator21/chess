@@ -1,12 +1,5 @@
 #include"square.h"
 
-Square::Square() {
-  this->setX(x);
-  this->setY(y);
-  this->setPiece(piece);
-  this->promotionSquare = promotionSquare;
-}
-
 Square::Square(int x, int y, std::shared_ptr<Piece> piece, bool promotionSquare) {
   this->setX(x);
   this->setY(y);

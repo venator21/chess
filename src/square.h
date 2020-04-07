@@ -3,7 +3,7 @@
 
 class Square {
 public:
-  Square();
+  Square()=default;
   Square(int x, int y, std::shared_ptr<Piece> piece, bool promotion);
   void setPiece(std::shared_ptr<Piece> piece);
   std::shared_ptr<Piece> getPiece();
