@@ -1,5 +1,5 @@
 #pragma once
-#include"piece.h"
+#include"Piece.h"
 
 class Square {
 public:

@@ -1,4 +1,4 @@
-#include"move.h"
+#include"Move.h"
 
 Move::Move(Player player, int sourceX, int sourceY,
                           int destinationX, int destinationY,

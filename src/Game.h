@@ -1,5 +1,5 @@
 #pragma once
-#include"board.h"
+#include"Board.h"
 
 enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 

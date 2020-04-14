@@ -1,4 +1,4 @@
-#include"square.h"
+#include"Square.h"
 
 Square::Square(int x, int y, std::shared_ptr<Piece> piece, bool promotionSquare) {
   this->setX(x);

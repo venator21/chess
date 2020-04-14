@@ -1,6 +1,6 @@
 #include<iostream>
 #include<string>
-#include"game.h"
+#include"Game.h"
 
 int main() {
   std::string move;
