@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "../src/piece.h"
-#include "../src/piece.cpp"
+#include "gtest/gtest.h"
+#include "../src/Piece.h"
+#include "../src/Piece.cpp"
 
 using namespace testing;
 
@@ -98,3 +98,4 @@ TEST_F(PieceCollection, PawnMovesOneSquereDiagonalOnlyWhenGoingForKill) {
   EXPECT_FALSE(pawn.canMove(w_dummy, nullptr, 3, 3, 4, 4));
   EXPECT_TRUE(pawn.canMove(w_dummy, b_dummy, 3, 3, 4, 4));
 }
+

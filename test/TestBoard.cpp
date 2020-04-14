@@ -1,8 +1,6 @@
-#include"pch.h"
+#include "gtest/gtest.h"
 #include"../src/Board.h"
 #include"../src/Board.cpp"
-#include"../src/Square.h"
-#include"../src/Square.cpp"
 #include"../src/Player.h"
 #include"../src/Player.cpp"
 #include"../src/Move.h"
@@ -184,7 +182,8 @@ TEST_F(ChessEnPassant, ExecutesEnPassantMove) {
   board.grid[1][4].setPiece(board.pieceFactory.Create(WHITE, PAWN));
   board.makeMove(b_player, 2, 6, 2, 4);
   board.makeMove(w_player, 1, 4, 2, 5);
-  
+
   EXPECT_EQ(board.getSquare(2, 4).getPiece(), nullptr);
   EXPECT_EQ(board.getSquare(2, 5).getPiece()->getPieceType(), PAWN);
 }
+
