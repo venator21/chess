@@ -1,12 +1,14 @@
 #pragma once
 
 class Player {
- public:
-  bool isWhiteSide();
-  bool isHumanPlayer();
- protected:
-  bool whiteSide;
-  bool humanPlayer;
+public:
+    Player()=default;
+    Player(bool whiteSide);
+    bool isWhiteSide() const;
+    bool isHumanPlayer() const;
+private:
+      bool whiteSide;
+      bool humanPlayer;
 };
 
 class HumanPlayer : public Player {

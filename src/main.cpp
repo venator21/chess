@@ -13,7 +13,7 @@ int main() {
     std::cin >> move;
 
 
-    if (game.playGameTurn(move) == false) {
+    if (!game.playGameTurn(move)) {
       std::cout << "wrong move! try again." << std::endl;
       continue;
     }

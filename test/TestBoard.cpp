@@ -20,7 +20,7 @@ public:
   Board board;
   Player b_player = HumanPlayer(false);
   Player w_player = HumanPlayer(true);
-  Move move = Move(b_player, 2, 6, 2, 4, pieceFactory.Create(BLACK, PAWN), nullptr);
+  Move move = Move(b_player, 2, 6, 2, 4, pieceFactory.create(BLACK, PAWN), nullptr);
 };
 
 TEST_F(ChessBoard, AllowMovementWhenNoPiececInWay) {
@@ -63,9 +63,9 @@ TEST_F(ChessBoard, DistributesPiecesDuringInitialization) {
 
 TEST_F(ChessBoard, CastelingValidWhiteKing) {
   board.initializeGrid();
-  board.grid[4][0].setPiece(board.pieceFactory.Create(WHITE, KING));
-  board.grid[7][0].setPiece(board.pieceFactory.Create(WHITE, ROOK));
-  board.grid[0][0].setPiece(board.pieceFactory.Create(WHITE, ROOK));
+  board.grid[4][0].setPiece(board.pieceFactory.create(WHITE, KING));
+  board.grid[7][0].setPiece(board.pieceFactory.create(WHITE, ROOK));
+  board.grid[0][0].setPiece(board.pieceFactory.create(WHITE, ROOK));
 
   EXPECT_TRUE(board.isValidCastling(4, 0, 6, 0));
   EXPECT_TRUE(board.isValidCastling(4, 0, 2, 0));
@@ -73,9 +73,9 @@ TEST_F(ChessBoard, CastelingValidWhiteKing) {
 
 TEST_F(ChessBoard, CastelingValidBlackKing) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
-  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
 
   EXPECT_TRUE(board.isValidCastling(4, 7, 6, 7));
   EXPECT_TRUE(board.isValidCastling(4, 7, 2, 7));
@@ -83,11 +83,11 @@ TEST_F(ChessBoard, CastelingValidBlackKing) {
 
 TEST_F(ChessBoard, DenyCastelingWhenPathBlocked) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
-  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
-  board.grid[6][7].setPiece(board.pieceFactory.Create(BLACK, BISHOP));
-  board.grid[1][7].setPiece(board.pieceFactory.Create(BLACK, BISHOP));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
+  board.grid[6][7].setPiece(board.pieceFactory.create(BLACK, BISHOP));
+  board.grid[1][7].setPiece(board.pieceFactory.create(BLACK, BISHOP));
 
   EXPECT_FALSE(board.isValidCastling(4, 7, 6, 7));
   EXPECT_FALSE(board.isValidCastling(4, 7, 2, 7));
@@ -95,7 +95,7 @@ TEST_F(ChessBoard, DenyCastelingWhenPathBlocked) {
 
 TEST_F(ChessBoard, DenyCastelingWhenNoRook) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
 
   EXPECT_FALSE(board.isValidCastling(4, 7, 6, 7));
   EXPECT_FALSE(board.isValidCastling(4, 7, 2, 7));
@@ -103,9 +103,9 @@ TEST_F(ChessBoard, DenyCastelingWhenNoRook) {
 
 TEST_F(ChessBoard, DenyCastelingWhenKingMovedAlready) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
-  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
   board.grid[4][7].getPiece()->setFirstMoved();
 
   EXPECT_FALSE(board.isValidCastling(4, 7, 6, 7));
@@ -114,9 +114,9 @@ TEST_F(ChessBoard, DenyCastelingWhenKingMovedAlready) {
 
 TEST_F(ChessBoard, DenyCastelingWhenRookMovedAlready) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
-  board.grid[0][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
+  board.grid[0][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
   board.grid[7][7].getPiece()->setFirstMoved();
   board.grid[0][7].getPiece()->setFirstMoved();
 
@@ -126,8 +126,8 @@ TEST_F(ChessBoard, DenyCastelingWhenRookMovedAlready) {
 
 TEST_F(ChessBoard, RookIsMovedDuringCastlingMove) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
   board.executeCastlingMove(4, 7, 6, 7);
 
   EXPECT_EQ(board.getSquare(7, 7).getPiece(), nullptr);
@@ -136,8 +136,8 @@ TEST_F(ChessBoard, RookIsMovedDuringCastlingMove) {
 
 TEST_F(ChessBoard, CastlingIsProccessedInMakeMove) {
   board.initializeGrid();
-  board.grid[4][7].setPiece(board.pieceFactory.Create(BLACK, KING));
-  board.grid[7][7].setPiece(board.pieceFactory.Create(BLACK, ROOK));
+  board.grid[4][7].setPiece(board.pieceFactory.create(BLACK, KING));
+  board.grid[7][7].setPiece(board.pieceFactory.create(BLACK, ROOK));
   board.makeMove(player, 4, 7, 6, 7);
 
   EXPECT_EQ(board.getSquare(7, 7).getPiece(), nullptr);
@@ -170,16 +170,16 @@ TEST_F(ChessBoard, DenyMakingMoveWhenPiecesMovementRulesWereBroke) {
 
 TEST_F(ChessEnPassant, RecognizeEnPassantMoveIsPossible) {
   board.movesPlayed.push_back(move);
-  board.grid[2][6].setPiece(board.pieceFactory.Create(BLACK, PAWN));
-  board.grid[1][4].setPiece(board.pieceFactory.Create(WHITE, PAWN));
+  board.grid[2][6].setPiece(board.pieceFactory.create(BLACK, PAWN));
+  board.grid[1][4].setPiece(board.pieceFactory.create(WHITE, PAWN));
 
   EXPECT_TRUE(board.isEnPassant(1, 4, 2, 5));
 }
 
 TEST_F(ChessEnPassant, ExecutesEnPassantMove) {
   board.movesPlayed.push_back(move);
-  board.grid[2][6].setPiece(board.pieceFactory.Create(BLACK, PAWN));
-  board.grid[1][4].setPiece(board.pieceFactory.Create(WHITE, PAWN));
+  board.grid[2][6].setPiece(board.pieceFactory.create(BLACK, PAWN));
+  board.grid[1][4].setPiece(board.pieceFactory.create(WHITE, PAWN));
   board.makeMove(b_player, 2, 6, 2, 4);
   board.makeMove(w_player, 1, 4, 2, 5);
 

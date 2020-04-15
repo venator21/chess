@@ -168,7 +168,7 @@ endif
 	@echo -n "Total build time: "
 	@$(END_TIME)
 
-# Create the directories used in the build
+# create the directories used in the build
 .PHONY: dirs
 dirs:
 	@echo "Creating directories"

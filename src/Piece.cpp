@@ -1,34 +1,27 @@
 #include"Piece.h"
 
-
 Piece::Piece(bool white) {
   this->setWhite(white);
 }
-void Piece::setWhite(bool white) {
-  this->white = white;
+void Piece::setWhite(bool color) {
+  this->white = color;
 }
-bool Piece::isWhite() {
+bool Piece::isWhite() const {
   return this->white;
 }
-void Piece::setKilled(bool killed) {
-  this->killed = killed;
-}
-bool Piece::isKilled() {
-  return this->killed;
+void Piece::setKilled(bool kill) {
+  this->killed = kill;
 }
 void Piece::setFirstMoved() {
   this->firstMove = false;
 }
-bool Piece::isFirstMove() {
+bool Piece::isFirstMove() const {
   return this->firstMove;
 }
 
-bool Piece::isPotentialKillSameColor(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece) {
+bool Piece::isPotentialKillSameColor(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece) const {
   if (killedPiece != nullptr) {
-    if (sourcePiece->isWhite() == killedPiece->isWhite())
-      return true;
-    else
-      return false;
+      return sourcePiece->isWhite() == killedPiece->isWhite();
   }
   return false;
 }
@@ -37,12 +30,9 @@ bool Piece::isPotentialKillSameColor(std::shared_ptr<Piece> sourcePiece, std::sh
 King::King(bool white)
   : Piece{ white } {
 }
-PieceType King::getPieceType() {
-  return this->pieceType;
-}
 bool King::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                   int sourceX, int sourceY,
-                   int killedX, int killedY) {
+                   int const& sourceX, int const& sourceY,
+                   int const& killedX, int const& killedY) const {
 
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
@@ -55,109 +45,96 @@ bool King::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> ki
   if (y > 1)
     return false;
 
-  if (x + y <= 2)
-    return true;
-  else
-    return false;
+    return x + y <= 2;
 }
 
+PieceType King::getPieceType() const {
+    return this->pieceType;
+}
 
 Queen::Queen(bool white)
   : Piece{ white } {
 }
-PieceType Queen::getPieceType() {
-  return this->pieceType;
-}
 bool Queen::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                    int sourceX, int sourceY,
-                    int killedX, int killedY) {
+                    int const& sourceX, int const& sourceY,
+                    int const& killedX, int const& killedY) const {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
-  if ((x == 0 || y == 0) || (x == y))
-    return true;
-  else
-    return false;
+    return (x == 0 || y == 0) || (x == y);
 }
 
+PieceType Queen::getPieceType() const {
+    return this->pieceType;
+}
 
 Bishop::Bishop(bool white)
   : Piece{ white } {
 }
-PieceType Bishop::getPieceType() {
-  return this->pieceType;
-}
 bool Bishop::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                     int sourceX, int sourceY,
-                     int killedX, int killedY) {
+                     int const& sourceX, int const& sourceY,
+                     int const& killedX, int const& killedY) const {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
-  if (x == y) return true;
-  return false;
+    return x == y;
 }
 
+PieceType Bishop::getPieceType() const {
+    return this->pieceType;
+}
 
 Knight::Knight(bool white)
   : Piece{ white } {
 }
-PieceType Knight::getPieceType() {
-  return this->pieceType;
-}
 bool Knight::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                     int sourceX, int sourceY,
-                     int killedX, int killedY) {
+                     int const& sourceX, int const& sourceY,
+                     int const& killedX, int const& killedY) const {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
-  if ((x == 1 && y == 2) || (x == 2 && y == 1))
-    return true;
-  else
-    return false;
+    return (x == 1 && y == 2) || (x == 2 && y == 1);
 }
 
+PieceType Knight::getPieceType() const {
+    return this->pieceType;
+}
 
 Rook::Rook(bool white)
   : Piece{ white } {
 }
-PieceType Rook::getPieceType() {
-  return this->pieceType;
-}
 bool Rook::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                   int sourceX, int sourceY,
-                   int killedX, int killedY) {
+                   int const& sourceX, int const& sourceY,
+                   int const& killedX, int const& killedY) const {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
   int x = abs(sourceX - killedX);
   int y = abs(sourceY - killedY);
-  if (x == 0 || y == 0)
-    return true;
-  else
-    return false;
+    return x == 0 || y == 0;
 }
 
+PieceType Rook::getPieceType() const {
+    return this->pieceType;
+}
 
 Pawn::Pawn(bool white)
   : Piece{ white } {
 }
-PieceType Pawn::getPieceType() {
-  return this->pieceType;
-}
 bool Pawn::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> killedPiece,
-                   int sourceX, int sourceY,
-                   int killedX, int killedY) {
+                   int const& sourceX, int const& sourceY,
+                   int const& killedX, int const& killedY) const {
   if (isPotentialKillSameColor(sourcePiece, killedPiece))
     return false;
 
-  int x;
-  int y;
+  int x{};
+  int y{};
 
   if (sourcePiece->isWhite())
   {
@@ -170,10 +147,11 @@ bool Pawn::canMove(std::shared_ptr<Piece> sourcePiece, std::shared_ptr<Piece> ki
     y = sourceY - killedY;
   }
 
-  if ((killedPiece == nullptr && x == 0 && // can move vertical without kill
-      (y == 1 || y == 2 && this->isFirstMove() == true)) || // can move vertical 1 sq or 2 sq if first move
-      (killedPiece != nullptr && abs(x) == 1 && y == 1)) // can move 1 sq diagonal if going for a kill
-    return true;
-  else
-    return false;
+    return !(!(killedPiece == nullptr && x == 0 && // can move vertical without kill
+               ((y == 1 || y == 2) && this->isFirstMove())) && // can move vertical 1 sq or 2 sq if first move
+             !(killedPiece != nullptr && abs(x) == 1 && y == 1)); // can move 1 sq diagonal if going for a kill
+}
+
+PieceType Pawn::getPieceType() const {
+    return this->pieceType;
 }

@@ -6,17 +6,17 @@ enum class GameStatus { ACTIVE, BLACK_WINS, WHITE_WINS, DRAW };
 class Game {
  public:
   Game();
-  bool playGameTurn(std::string inputMove);
-  Player getcurrentPlayer();
-  GameStatus getGameStatus();
-  std::vector<int> transformMoveInputToCoord(std::string string);
-  int charTransformation(char s);
+  bool playGameTurn(std::string const& inputMove);
+  Player getcurrentPlayer() const;
+  GameStatus getGameStatus() const;
+  static std::vector<int> transformMoveInputToCoord(std::string const& string);
+  static int charTransformation(char const& s);
   void printGame();
 
  private:
   Board board;
-  Player w_player;
-  Player b_player;
-  Player currentPlayer;
-  GameStatus gameStatus;
+  HumanPlayer wPlayer{true};
+  HumanPlayer bPlayer{false};
+  Player* currentPlayer;
+  GameStatus gameStatus{GameStatus::ACTIVE};
 };

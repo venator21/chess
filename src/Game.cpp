@@ -1,14 +1,12 @@
 #include"Game.h"
 
+
 Game::Game() {
-  this->gameStatus = GameStatus::ACTIVE;
-  this->w_player = static_cast<Player>(HumanPlayer(true));
-  this->b_player = static_cast<Player>(HumanPlayer(false));
-  this->currentPlayer = w_player;
+  this->currentPlayer = &wPlayer;
   this->board.initializeBoard();
 }
 
-bool Game::playGameTurn(std::string inputMove) {
+bool Game::playGameTurn(std::string const& inputMove) {
   std::vector<int> start = transformMoveInputToCoord(inputMove.substr(0, 2));
   std::vector<int> end = transformMoveInputToCoord(inputMove.substr(3, 2));
 
@@ -16,35 +14,34 @@ bool Game::playGameTurn(std::string inputMove) {
     return false;
 
   if (board.isKingKilled()) {
-    bool white = currentPlayer.isWhiteSide();
-    if (white)
+    if (currentPlayer->isWhiteSide())
       this->gameStatus = GameStatus::WHITE_WINS;
     else
       this->gameStatus = GameStatus::BLACK_WINS;
   }
 
-  if (currentPlayer.isWhiteSide())
-    this->currentPlayer = b_player;
+  if (currentPlayer->isWhiteSide())
+    this->currentPlayer = &bPlayer;
   else
-    this->currentPlayer = w_player;
+    this->currentPlayer = &wPlayer;
 }
 
-Player Game::getcurrentPlayer() {
+Player Game::getcurrentPlayer() const {
   return this->currentPlayer;
 }
 
-GameStatus Game::getGameStatus() {
+GameStatus Game::getGameStatus() const {
   return this->gameStatus;
 }
 
-std::vector<int> Game::transformMoveInputToCoord(std::string string) {
+std::vector<int> Game::transformMoveInputToCoord(std::string const& string) {
   int x = static_cast<int>(charTransformation(string[0]) - 1);
   int y = static_cast<int>(string[1] - 48 - 1);
   std::vector<int> coord { x, y };
   return coord;
 }
 
-int Game::charTransformation(char s) {
+int Game::charTransformation(char const& s) {
   switch (s) {
   case 'A':
     return 1;

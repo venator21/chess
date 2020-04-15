@@ -1,18 +1,14 @@
 #include"Player.h"
 
-bool Player::isWhiteSide() {
-  return this->whiteSide == true;
+Player::Player(bool whiteSide) : whiteSide(whiteSide) {}
+
+bool Player::isWhiteSide() const {
+  return this->whiteSide;
 }
-bool Player::isHumanPlayer() {
-  return this->humanPlayer == true;
+bool Player::isHumanPlayer() const {
+  return this->humanPlayer;
 }
 
-HumanPlayer::HumanPlayer(bool whiteSide) {
-  this->whiteSide = whiteSide;
-  this->humanPlayer = true;
-}
+HumanPlayer::HumanPlayer(bool whiteSide) : Player(whiteSide) {}
 
-ComputerPlayer::ComputerPlayer(bool whiteSide) {
-  this->whiteSide = whiteSide;
-  this->humanPlayer = false;
-}
+ComputerPlayer::ComputerPlayer(bool whiteSide) : Player(whiteSide) {}

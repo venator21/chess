@@ -1,6 +1,5 @@
 #include"Board.h"
 
-
 Board::Board() {
   this->initializeBoard();
 }
@@ -23,39 +22,39 @@ void Board::initializeGrid() {
 }
 
 void Board::initializePieces() {
-  grid[0][0].setPiece(pieceFactory.Create(WHITE, ROOK));
-  grid[1][0].setPiece(pieceFactory.Create(WHITE, KNIGHT));
-  grid[2][0].setPiece(pieceFactory.Create(WHITE, BISHOP));
-  grid[3][0].setPiece(pieceFactory.Create(WHITE, QUEEN));
-  grid[4][0].setPiece(pieceFactory.Create(WHITE, KING));
-  grid[5][0].setPiece(pieceFactory.Create(WHITE, BISHOP));
-  grid[6][0].setPiece(pieceFactory.Create(WHITE, KNIGHT));
-  grid[7][0].setPiece(pieceFactory.Create(WHITE, ROOK));
+  grid[0][0].setPiece(pieceFactory.create(WHITE, ROOK));
+  grid[1][0].setPiece(pieceFactory.create(WHITE, KNIGHT));
+  grid[2][0].setPiece(pieceFactory.create(WHITE, BISHOP));
+  grid[3][0].setPiece(pieceFactory.create(WHITE, QUEEN));
+  grid[4][0].setPiece(pieceFactory.create(WHITE, KING));
+  grid[5][0].setPiece(pieceFactory.create(WHITE, BISHOP));
+  grid[6][0].setPiece(pieceFactory.create(WHITE, KNIGHT));
+  grid[7][0].setPiece(pieceFactory.create(WHITE, ROOK));
 
-  grid[0][7].setPiece(pieceFactory.Create(BLACK, ROOK));
-  grid[1][7].setPiece(pieceFactory.Create(BLACK, KNIGHT));
-  grid[2][7].setPiece(pieceFactory.Create(BLACK, BISHOP));
-  grid[3][7].setPiece(pieceFactory.Create(BLACK, QUEEN));
-  grid[4][7].setPiece(pieceFactory.Create(BLACK, KING));
-  grid[5][7].setPiece(pieceFactory.Create(BLACK, BISHOP));
-  grid[6][7].setPiece(pieceFactory.Create(BLACK, KNIGHT));
-  grid[7][7].setPiece(pieceFactory.Create(BLACK, ROOK));
+  grid[0][7].setPiece(pieceFactory.create(BLACK, ROOK));
+  grid[1][7].setPiece(pieceFactory.create(BLACK, KNIGHT));
+  grid[2][7].setPiece(pieceFactory.create(BLACK, BISHOP));
+  grid[3][7].setPiece(pieceFactory.create(BLACK, QUEEN));
+  grid[4][7].setPiece(pieceFactory.create(BLACK, KING));
+  grid[5][7].setPiece(pieceFactory.create(BLACK, BISHOP));
+  grid[6][7].setPiece(pieceFactory.create(BLACK, KNIGHT));
+  grid[7][7].setPiece(pieceFactory.create(BLACK, ROOK));
 
   for (int x = 0; x < 8; x++) {
-    grid[x][1].setPiece(pieceFactory.Create(WHITE, PAWN));
+    grid[x][1].setPiece(pieceFactory.create(WHITE, PAWN));
   }
 
   for (int x = 0; x < 8; x++) {
-    grid[x][6].setPiece(pieceFactory.Create(BLACK, PAWN));
+    grid[x][6].setPiece(pieceFactory.create(BLACK, PAWN));
   }
 }
 
-Square Board::getSquare(int x, int y) {
+Square Board::getSquare(int const& x, int const& y) const {
   return grid[x][y];
 }
 
-bool Board::makeMove(Player currentPlayer, int sourceX, int sourceY,
-                                         int destinationX, int destinationY) {
+bool Board::makeMove(Player currentPlayer, int const& sourceX, int const& sourceY,
+                                         int const& destinationX, int const& destinationY) {
   std::shared_ptr<Piece> sourcePiece = getSquare(sourceX, sourceY).getPiece();
   std::shared_ptr<Piece> killedPiece = getSquare(destinationX, destinationY).getPiece();
 
@@ -77,11 +76,11 @@ bool Board::makeMove(Player currentPlayer, int sourceX, int sourceY,
     return false;
 
   // first movement of piece instance? 
-  if (sourcePiece->isFirstMove() == true)
+  if (sourcePiece->isFirstMove())
     sourcePiece->setFirstMoved();
 
   // promotion?
-  if (sourcePiece->getPieceType() == PieceType::PAWN && getSquare(destinationX, destinationY).isPromotionSquare() == true)
+  if (sourcePiece->getPieceType() == PieceType::PAWN && getSquare(destinationX, destinationY).isPromotionSquare())
     executePromotion(currentPlayer, destinationX, destinationY);
 
   // kill? 
@@ -89,22 +88,22 @@ bool Board::makeMove(Player currentPlayer, int sourceX, int sourceY,
     killedPiece->setKilled(true);
 
   sourcePieceMoved(sourceX, sourceY, destinationX, destinationY);
-  movesPlayed.push_back(Move(currentPlayer, sourceX, sourceY, destinationX, destinationY, sourcePiece, killedPiece));
+  movesPlayed.emplace_back(currentPlayer, sourceX, sourceY, destinationX, destinationY, sourcePiece, killedPiece);
 
   return true;
 }
 
 
-void Board::sourcePieceMoved(int sourceX, int sourceY,
-                      int destinationX, int destinationY) {
+void Board::sourcePieceMoved(int const& sourceX, int const& sourceY,
+                      int const& destinationX, int const& destinationY) {
   grid[destinationX][destinationY].setPiece(getSquare(sourceX, sourceY).getPiece());
   grid[sourceX][sourceY].setPiece(nullptr);
 }
 
 
 
-bool Board::isMovementPathClear(int sourceX, int sourceY,
-                                int destinationX, int destinationY) {
+bool Board::isMovementPathClear(int const& sourceX, int const& sourceY,
+                                int const& destinationX, int const& destinationY) const {
   int x = abs(sourceX - destinationX);
   int y = abs(sourceY - destinationY);
   int maxRange;
@@ -176,7 +175,7 @@ bool Board::isMovementPathClear(int sourceX, int sourceY,
   return true;
 }
 
-void Board::executePromotion(Player currentPlayer, int destinationX, int destinationY) {
+void Board::executePromotion(Player currentPlayer, int const& destinationX, int const& destinationY) {
   int promotionPiece = 0;
   while (promotionPiece < 1 || promotionPiece > 4) {
     std::cout << "\nChose promotion piece (QUEEN - 1 , BISHOP -2, KNIGHT - 3, ROOK - 4): ";
@@ -184,19 +183,19 @@ void Board::executePromotion(Player currentPlayer, int destinationX, int destina
   }
   switch (promotionPiece) {
   case 1:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), QUEEN));
+    grid[destinationX][destinationY].setPiece(pieceFactory.create(currentPlayer.isWhiteSide(), QUEEN));
   case 2:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), BISHOP));
+    grid[destinationX][destinationY].setPiece(pieceFactory.create(currentPlayer.isWhiteSide(), BISHOP));
   case 3:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), KNIGHT));
+    grid[destinationX][destinationY].setPiece(pieceFactory.create(currentPlayer.isWhiteSide(), KNIGHT));
   case 4:
-    grid[destinationX][destinationY].setPiece(pieceFactory.Create(currentPlayer.isWhiteSide(), ROOK));
+    grid[destinationX][destinationY].setPiece(pieceFactory.create(currentPlayer.isWhiteSide(), ROOK));
   default:
     throw std::string("Wrong promotion input!");
   }
 }
 
-bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int destinationY) {
+bool Board::isValidCastling(int const& sourceX, int const& sourceY, int const& destinationX, int const& destinationY) const {
   int xDiff = sourceX - destinationX;
   int yDiff = sourceY - destinationY;
   int rookX;
@@ -208,7 +207,7 @@ bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int dest
   if (getSquare(destinationX, destinationY).getPiece() != nullptr)
     return false;
 
-  if (getSquare(sourceX, sourceY).getPiece()->isFirstMove() != true)
+  if (!getSquare(sourceX, sourceY).getPiece()->isFirstMove())
     return false;
 
   // while castling king movement is horizontal
@@ -228,11 +227,11 @@ bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int dest
   if (getSquare(rookX, rookY).getPiece() == nullptr)
     return false;
 
-  if (getSquare(rookX, rookY).getPiece()->isFirstMove() != true)
+  if (!getSquare(rookX, rookY).getPiece()->isFirstMove())
     return false;
 
-  int minRange;
-  int maxRange;
+  int minRange{};
+  int maxRange{};
 
   if (rookX == 0) {
     minRange = 0;
@@ -251,7 +250,7 @@ bool Board::isValidCastling(int sourceX, int sourceY, int destinationX, int dest
   return true;
 }
 
-void Board::executeCastlingMove(int sourceX, int sourceY, int destinationX, int destinationY){
+void Board::executeCastlingMove(int const& sourceX, int const& sourceY, int const& destinationX, int const& destinationY) {
   // if true move rook to the proper position
   if (destinationX == 6) {
     grid[5][destinationY].setPiece(getSquare(7, destinationY).getPiece());
@@ -263,10 +262,10 @@ void Board::executeCastlingMove(int sourceX, int sourceY, int destinationX, int 
   }
 }
 
-bool Board::isEnPassant(int sourceX, int sourceY,
-  int destinationX, int destinationY) {
+bool Board::isEnPassant(int const& sourceX, int const& sourceY,
+  int const& destinationX, int const& destinationY) {
   // ignore if it is first move of the game
-  if (movesPlayed.size() == 0)
+  if (movesPlayed.empty())
     return false;
 
   Move lastMove = movesPlayed.back();
@@ -283,9 +282,9 @@ bool Board::isEnPassant(int sourceX, int sourceY,
     return false;
 
   // check if moved piece is pawn and destination square is on targeted enPassant
-  std::vector<int> enPassantTarget = EnPassantTarget();
+  auto [targetX, targetY] = EnPassantTarget();
   if (!(getSquare(sourceX, sourceY).getPiece()->getPieceType() == PieceType::PAWN &&
-    destinationX == enPassantTarget[0] && destinationY == enPassantTarget[1]))
+    destinationX == targetX && destinationY == targetY))
     return false;
 
   return true;
@@ -297,9 +296,9 @@ void Board::executeEnPassantMove() {
   grid[x][y].setPiece(nullptr);
 }
 
-std::vector<int> Board::EnPassantTarget() {
-  if (movesPlayed.size() == 0) {
-    std::vector<int> target = { -1, -1 };
+std::tuple<int, int> Board::EnPassantTarget() const {
+  if (movesPlayed.empty()) {
+    std::tuple<int, int> target = { -1, -1 };
     return target;
   }
 
@@ -308,20 +307,20 @@ std::vector<int> Board::EnPassantTarget() {
 
   // determine valid destination of en passant based on vertical movement of previous move 
   if (yDiff == 2) {
-    std::vector<int> target = { lastMove.getKilledPieceX(), lastMove.getKilledPieceY() - 1 };
+    std::tuple<int, int> target = { lastMove.getKilledPieceX(), lastMove.getKilledPieceY() - 1 };
     return target;
   }
   else if (yDiff == -2) {
-    std::vector<int> target = { lastMove.getKilledPieceX(), lastMove.getKilledPieceY() + 1 };
+    std::tuple<int, int> target = { lastMove.getKilledPieceX(), lastMove.getKilledPieceY() + 1 };
     return target;
   }
   else {
-    std::vector<int> target = { -1, -1 };
+    std::tuple<int, int> target = { -1, -1 };
     return target;
   }
 }
 
-bool Board::isKingKilled() {
+bool Board::isKingKilled() const {
   Move lastMove = movesPlayed.back();
 
   if (lastMove.getKilledPiece() == nullptr)
@@ -333,28 +332,28 @@ bool Board::isKingKilled() {
     return false;
 }
 
-void Board::printBoard() {
+void Board::printBoard() const {
 
   for (int i = 7; i >= 0; i--) {
     std::cout << " " << i + 1 << "|";
     for (int j = 0; j < 8; j++) {
-      std::shared_ptr<Piece> p = getSquare(j, i).getPiece();
+      auto p = getSquare(j, i).getPiece();
       if (p == nullptr) {
         std::cout << " " << "." << " ";
         continue;
       }
       switch (p->getPieceType()) {
-      case PieceType::KING: (p->isWhite() == true) ? std::cout << " K " : std::cout << " k ";
+      case PieceType::KING: p->isWhite() ? std::cout << " K " : std::cout << " k ";
         break;
-      case PieceType::QUEEN: (p->isWhite() == true) ? std::cout << " Q " : std::cout << " q ";
+      case PieceType::QUEEN: p->isWhite() ? std::cout << " Q " : std::cout << " q ";
         break;
-      case PieceType::BISHOP:(p->isWhite() == true) ? std::cout << " B " : std::cout << " b ";
+      case PieceType::BISHOP: p->isWhite() ? std::cout << " B " : std::cout << " b ";
         break;
-      case PieceType::KNIGHT:(p->isWhite() == true) ? std::cout << " N " : std::cout << " n ";
+      case PieceType::KNIGHT: p->isWhite() ? std::cout << " N " : std::cout << " n ";
         break;
-      case PieceType::ROOK: (p->isWhite() == true) ? std::cout << " R " : std::cout << " r ";
+      case PieceType::ROOK: p->isWhite() ? std::cout << " R " : std::cout << " r ";
         break;
-      case PieceType::PAWN: (p->isWhite() == true) ? std::cout << " P " : std::cout << " p ";
+      case PieceType::PAWN: p->isWhite() ? std::cout << " P " : std::cout << " p ";
         break;
       }
     }

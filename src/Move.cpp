@@ -1,38 +1,37 @@
 #include"Move.h"
 
-Move::Move(Player player, int sourceX, int sourceY,
-                          int destinationX, int destinationY,
-                          std::shared_ptr<Piece> pieceMoved,
-                          std::shared_ptr<Piece> pieceKilled) {
-  this->player = player;
-  this->sourceX = sourceX;
-  this->sourceY = sourceY;
-  this->destinationX = destinationX;
-  this->destinationY = destinationY;
-  this->pieceMoved = pieceMoved;
-  this->pieceKilled = pieceKilled;
-}
+Move::Move(const Player &player, int sourceX, int sourceY, int destinationX, int destinationY,
+           const std::shared_ptr<Piece> &pieceMoved, const std::shared_ptr<Piece> &pieceKilled) :
+        player(player),
+        sourceX(sourceX),
+        sourceY(sourceY),
+        destinationX(destinationX),
+        destinationY(destinationY),
+        pieceMoved(pieceMoved),
+        pieceKilled(pieceKilled) {}
 
-int  Move::getMovedPieceX() {
+int  Move::getMovedPieceX() const {
   return this->sourceX;
 }
 
-int  Move::getMovedPieceY() {
+int  Move::getMovedPieceY() const {
   return this->sourceY;
 }
 
-int  Move::getKilledPieceX() {
+int  Move::getKilledPieceX() const {
   return this->destinationX;
 }
 
-int  Move::getKilledPieceY() {
+int  Move::getKilledPieceY() const {
   return this->destinationY;
 }
 
-std::shared_ptr<Piece>  Move::getMovedPiece() {
+std::shared_ptr<Piece>  Move::getMovedPiece() const {
   return this->pieceMoved;
 }
 
-std::shared_ptr<Piece>  Move::getKilledPiece() {
+std::shared_ptr<Piece>  Move::getKilledPiece() const {
   return this->pieceKilled;
 }
+
+

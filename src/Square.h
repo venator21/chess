@@ -6,12 +6,12 @@ public:
   Square()=default;
   Square(int x, int y, std::shared_ptr<Piece> piece, bool promotion);
   void setPiece(std::shared_ptr<Piece> piece);
-  std::shared_ptr<Piece> getPiece();
+  std::shared_ptr<Piece> getPiece() const;
   void setX(int x);
-  int getX();
+  int getX() const;
   void setY(int y);
-  int getY();
-  bool isPromotionSquare();
+  int getY() const;
+  bool isPromotionSquare() const;
 
 private:
   int x;
