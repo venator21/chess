@@ -1,5 +1,4 @@
-# chess
-[![CircleCI](https://circleci.com/gh/venator21/chess.svg?style=svg)](https://circleci.com/gh/venator21/chess)
+# chess [![CircleCI](https://circleci.com/gh/venator21/chess.svg?style=svg)](https://circleci.com/gh/venator21/chess)
 
 Chess game mechanics with c++ using OOP principles. Can be already played on console however some higher level enforcements are to be implemented (e.g. check mate).
 
