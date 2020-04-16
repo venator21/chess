@@ -3,10 +3,11 @@
 Player::Player(bool whiteSide) : whiteSide(whiteSide) {}
 
 bool Player::isWhiteSide() const {
-  return this->whiteSide;
+    return this->whiteSide;
 }
+
 bool Player::isHumanPlayer() const {
-  return this->humanPlayer;
+    return this->humanPlayer;
 }
 
 HumanPlayer::HumanPlayer(bool whiteSide) : Player(whiteSide) {}

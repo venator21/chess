@@ -2,25 +2,31 @@
 
 class Player {
 public:
-    Player()=default;
-    Player(bool whiteSide);
+    Player() = default;
+
+    explicit Player(bool whiteSide);
+
     bool isWhiteSide() const;
+
     bool isHumanPlayer() const;
+
 private:
-      bool whiteSide;
-      bool humanPlayer;
+    bool whiteSide{};
+    bool humanPlayer{};
 };
 
 class HumanPlayer : public Player {
- public:
-  HumanPlayer(bool whiteSide);
- private:
-  bool humanPlayer = true;
+public:
+    explicit HumanPlayer(bool whiteSide);
+
+private:
+    bool humanPlayer = true;
 };
 
 class ComputerPlayer : public Player {
- public:
-  ComputerPlayer(bool whiteSide);
+public:
+    explicit ComputerPlayer(bool whiteSide);
+
 private:
-  bool humanPlayer = false;
+    bool humanPlayer = false;
 };

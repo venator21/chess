@@ -6,9 +6,8 @@ using namespace testing;
 
 class ChessSquare: public Test {
 public:
-  PieceFactory pieceFactory;
-  std::shared_ptr<Piece> somePiece = pieceFactory.create(true, PAWN);
-  Square occupiedSquare = Square(0, 1, pieceFactory.create(true, PAWN), false);
+  std::shared_ptr<Piece> somePiece = PieceFactory::create(true, PAWN);
+  Square occupiedSquare = Square(0, 1, PieceFactory::create(true, PAWN), false);
   Square emptySquare = Square(0, 1, nullptr, false);
 };
 
